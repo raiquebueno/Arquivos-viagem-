@@ -1,0 +1,492 @@
+<title>Gastos da Viagem</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,800&family=Figtree:wght@400;500;600&family=DM+Mono:wght@400;500&display=swap">
+<style>
+/* Layout: caderneta de bordo — total no topo, lista por dia, análise em aba, botão fixo para lançar */
+:root{
+  --bg:#F2F5F3; --surface:#FFFFFF; --ink:#13242A; --muted:#5B6E70; --line:#D9E2DF;
+  --accent:#0B7A66; --accent-soft:#D6EEE8; --accent-ink:#FFFFFF;
+  --warn:#B4650A; --bad:#B3261E; --chip:#E6ECEA;
+  --f-display:"Bricolage Grotesque", "Segoe UI", system-ui, sans-serif;
+  --f-body:"Figtree", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --f-num:"DM Mono", ui-monospace, "SF Mono", Menlo, monospace;
+  --r:14px;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#0E1517; --surface:#162124; --ink:#E4ECEA; --muted:#93A6A5; --line:#26363A;
+  --accent:#3CC4A8; --accent-soft:#163A35; --accent-ink:#06201B;
+  --warn:#E5A04D; --bad:#F2867E; --chip:#203034; color-scheme:dark }}
+:root[data-theme="dark"]{
+  --bg:#0E1517; --surface:#162124; --ink:#E4ECEA; --muted:#93A6A5; --line:#26363A;
+  --accent:#3CC4A8; --accent-soft:#163A35; --accent-ink:#06201B;
+  --warn:#E5A04D; --bad:#F2867E; --chip:#203034; color-scheme:dark }
+
+*{box-sizing:border-box}
+body{background:var(--bg); color:var(--ink); font-family:var(--f-body); font-size:15px; line-height:1.45;
+  padding-left:max(16px, env(safe-area-inset-left,0px)); padding-right:max(16px, env(safe-area-inset-right,0px));
+  padding-block:12px 110px}
+main{max-width:640px; margin:0 auto; display:flex; flex-direction:column; gap:18px}
+h1,h2,h3{font-family:var(--f-display); margin:0; text-wrap:balance}
+.num{font-family:var(--f-num); font-variant-numeric:tabular-nums}
+button{font:inherit; color:inherit; cursor:pointer}
+button:focus-visible, input:focus-visible, select:focus-visible, textarea:focus-visible{outline:2px solid var(--accent); outline-offset:2px}
+
+/* Resumo */
+.hero{display:flex; flex-direction:column; gap:6px; padding-top:8px}
+.eyebrow{font-size:12px; letter-spacing:.08em; text-transform:uppercase; color:var(--muted); font-weight:600;
+  display:flex; justify-content:space-between; align-items:center; gap:8px}
+.linkbtn{background:none; border:0; color:var(--accent); font-weight:600; font-size:13px; padding:4px 0; letter-spacing:0; text-transform:none}
+.total{font-family:var(--f-display); font-weight:800; font-size:clamp(40px, 12vw, 56px); line-height:1; letter-spacing:-.02em}
+.total small{font-size:.42em; font-weight:600; color:var(--muted); margin-right:4px; letter-spacing:0}
+.meta{color:var(--muted); font-size:14px}
+.budget{display:flex; flex-direction:column; gap:6px; margin-top:6px}
+.bar{height:8px; border-radius:99px; background:var(--chip); overflow:hidden}
+.bar > i{display:block; height:100%; background:var(--accent); border-radius:99px; transition:width .3s}
+.bar.over > i{background:var(--bad)}
+.budget .row{display:flex; justify-content:space-between; font-size:13px; color:var(--muted); gap:8px}
+
+.stats{display:grid; grid-template-columns:repeat(3, minmax(0,1fr)); gap:8px}
+.stat{background:var(--surface); border:1px solid var(--line); border-radius:var(--r); padding:10px 12px; min-width:0}
+.stat b{display:block; font-family:var(--f-num); font-weight:500; font-size:15px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis}
+.stat span{font-size:12px; color:var(--muted)}
+
+.notice{font-size:13px; padding:10px 12px; border-radius:10px; background:var(--accent-soft); color:var(--ink)}
+.notice.warn{background:color-mix(in srgb, var(--warn) 18%, var(--surface))}
+
+/* Abas */
+.tabs{display:flex; gap:6px; background:var(--chip); padding:4px; border-radius:99px; position:sticky; top:env(safe-area-inset-top,0px); z-index:5}
+.tabs button{flex:1; border:0; background:none; padding:9px 10px; border-radius:99px; font-weight:600; color:var(--muted)}
+.tabs button[aria-selected="true"]{background:var(--surface); color:var(--ink); box-shadow:0 1px 3px rgb(0 0 0 / .12)}
+
+/* Lista */
+.filters{display:flex; gap:6px; overflow-x:auto; padding-bottom:2px; scrollbar-width:none}
+.filters::-webkit-scrollbar{display:none}
+.chip{border:1px solid var(--line); background:var(--surface); border-radius:99px; padding:6px 12px; font-size:13px; white-space:nowrap; font-weight:500}
+.chip[aria-pressed="true"]{background:var(--ink); color:var(--bg); border-color:var(--ink)}
+.day{display:flex; flex-direction:column}
+.dayhead{display:flex; justify-content:space-between; align-items:baseline; padding:14px 2px 8px; border-bottom:1px solid var(--line); gap:8px}
+.dayhead h3{font-size:16px; font-weight:600}
+.dayhead .num{color:var(--muted); font-size:14px}
+.item{display:grid; grid-template-columns:minmax(0,1fr) auto; gap:2px 12px; padding:12px 2px; border:0; border-bottom:1px solid var(--line);
+  background:none; text-align:left; width:100%}
+.item:hover{background:color-mix(in srgb, var(--accent) 5%, transparent)}
+.item .place{font-weight:600; overflow-wrap:anywhere}
+.item .val{font-family:var(--f-num); font-weight:500; text-align:right; white-space:nowrap}
+.item .sub{font-size:13px; color:var(--muted); display:flex; gap:6px; flex-wrap:wrap; align-items:center}
+.item .pay{font-size:12px; color:var(--muted); text-align:right}
+.tag{font-size:11px; padding:1px 7px; border-radius:99px; background:var(--chip); color:var(--ink); font-weight:600; letter-spacing:.02em}
+.empty{padding:28px 18px; text-align:center; color:var(--muted); border:1.5px dashed var(--line); border-radius:var(--r); display:flex; flex-direction:column; gap:6px}
+.empty strong{color:var(--ink); font-family:var(--f-display); font-size:18px}
+
+/* Análise */
+.panel{background:var(--surface); border:1px solid var(--line); border-radius:var(--r); padding:16px; display:flex; flex-direction:column; gap:12px}
+.panel h2{font-size:18px}
+.panel p.hint{margin:0; font-size:13px; color:var(--muted)}
+.rank{display:flex; flex-direction:column; gap:10px}
+.rank .r{display:grid; grid-template-columns:minmax(0,1fr) auto; gap:4px 10px; font-size:14px}
+.rank .r .bar{grid-column:1 / -1; height:6px}
+.rank .r .v{font-family:var(--f-num); font-variant-numeric:tabular-nums}
+.rank .r .v em{font-style:normal; color:var(--muted); margin-left:6px; font-size:12px}
+.cols{display:flex; align-items:flex-end; gap:6px; height:150px; overflow-x:auto; padding-top:18px}
+.col{flex:1 0 34px; display:flex; flex-direction:column; align-items:center; gap:4px; height:100%; justify-content:flex-end; min-width:34px}
+.col i{display:block; width:100%; max-width:30px; background:var(--accent); border-radius:6px 6px 2px 2px; min-height:2px; position:relative}
+.col i b{position:absolute; bottom:100%; left:50%; transform:translateX(-50%); font:500 10px var(--f-num); color:var(--muted); white-space:nowrap; padding-bottom:2px}
+.col span{font-size:11px; color:var(--muted); font-family:var(--f-num)}
+.actions{display:flex; gap:8px; flex-wrap:wrap}
+.btn{border:1px solid var(--line); background:var(--surface); padding:10px 14px; border-radius:10px; font-weight:600}
+.btn.primary{background:var(--accent); color:var(--accent-ink); border-color:var(--accent)}
+.btn.danger{color:var(--bad); border-color:color-mix(in srgb, var(--bad) 40%, var(--line))}
+.btn.danger.armed{background:var(--bad); color:var(--surface); border-color:var(--bad)}
+textarea.csv{width:100%; min-height:120px; font:12px var(--f-num); background:var(--bg); color:var(--ink); border:1px solid var(--line); border-radius:10px; padding:10px}
+
+/* Botão fixo */
+.fab{position:fixed; left:50%; transform:translateX(-50%); bottom:calc(18px + env(safe-area-inset-bottom,0px)); z-index:20;
+  background:var(--accent); color:var(--accent-ink); border:0; border-radius:99px; padding:15px 26px; font-weight:700; font-size:16px;
+  box-shadow:0 6px 20px rgb(0 0 0 / .22); display:flex; gap:8px; align-items:center}
+.fab span{font-size:22px; line-height:0; font-weight:500}
+
+/* Folha inferior */
+.scrim{position:fixed; inset:0; background:rgb(0 0 0 / .45); z-index:30}
+.sheet{position:fixed; left:0; right:0; bottom:0; z-index:31; background:var(--surface); border-radius:20px 20px 0 0;
+  max-height:92%; overflow-y:auto; padding:10px max(16px, env(safe-area-inset-right,0px)) calc(20px + env(safe-area-inset-bottom,0px)) max(16px, env(safe-area-inset-left,0px));
+  box-shadow:0 -8px 30px rgb(0 0 0 / .25)}
+.sheet .inner{max-width:560px; margin:0 auto; display:flex; flex-direction:column; gap:14px}
+.grab{width:40px; height:4px; border-radius:9px; background:var(--line); margin:0 auto 4px}
+.sheet h2{font-size:20px}
+.field{display:flex; flex-direction:column; gap:6px; min-width:0}
+.field > label, .field > .lbl{font-size:12px; font-weight:600; letter-spacing:.06em; text-transform:uppercase; color:var(--muted)}
+.field input, .field textarea{font:inherit; font-size:16px; padding:12px; border-radius:10px; border:1px solid var(--line); background:var(--bg); color:var(--ink); width:100%}
+.field input.big{font-family:var(--f-num); font-size:26px; font-weight:500; padding:10px 12px}
+.two{display:grid; grid-template-columns:minmax(0,1fr) minmax(0,1fr); gap:10px}
+.opts{display:flex; flex-wrap:wrap; gap:6px}
+.opts .chip{font-size:14px; padding:8px 12px}
+.err{color:var(--bad); font-size:13px; margin:0}
+.sheet .actions{justify-content:space-between}
+.sheet .actions .right{display:flex; gap:8px; margin-left:auto}
+.toast{position:fixed; left:50%; transform:translateX(-50%); bottom:calc(84px + env(safe-area-inset-bottom,0px)); z-index:40;
+  background:var(--ink); color:var(--bg); padding:9px 16px; border-radius:99px; font-size:14px; font-weight:600}
+@media (prefers-reduced-motion: reduce){ .bar > i{transition:none} }
+</style>
+
+<main>
+  <section class="hero" aria-label="Resumo">
+    <div class="eyebrow"><span id="tripName">Viagem de férias</span><button class="linkbtn" id="editTripBtn" type="button">Ajustar viagem</button></div>
+    <div class="total num" id="total"><small>R$</small>0,00</div>
+    <div class="meta" id="meta">Nenhum gasto lançado ainda.</div>
+    <div class="budget" id="budget" hidden>
+      <div class="bar" id="budgetBar"><i style="width:0"></i></div>
+      <div class="row"><span id="budgetUsed"></span><span id="budgetLeft"></span></div>
+    </div>
+  </section>
+
+  <div class="stats">
+    <div class="stat"><b id="stAvg">—</b><span>média por dia</span></div>
+    <div class="stat"><b id="stToday">—</b><span>gasto hoje</span></div>
+    <div class="stat"><b id="stCount">0</b><span>lançamentos</span></div>
+  </div>
+
+  <div class="notice" id="status">Carregando seus gastos…</div>
+
+  <div class="tabs" role="tablist">
+    <button role="tab" id="tabList" aria-selected="true" type="button">Lançamentos</button>
+    <button role="tab" id="tabStats" aria-selected="false" type="button">Análise</button>
+  </div>
+
+  <section id="viewList" class="day-wrap">
+    <div class="filters" id="filters" aria-label="Filtrar por pagamento"></div>
+    <div id="list"></div>
+  </section>
+
+  <section id="viewStats" hidden style="display:flex;flex-direction:column;gap:14px">
+    <div class="panel"><h2>Por categoria</h2><div class="rank" id="byCat"></div></div>
+    <div class="panel"><h2>Por dia</h2><div class="cols" id="byDay"></div></div>
+    <div class="panel"><h2>Por forma de pagamento</h2><div class="rank" id="byPay"></div></div>
+    <div class="panel"><h2>Onde mais gastei</h2><div class="rank" id="byPlace"></div></div>
+    <div class="panel">
+      <h2>Levar para a planilha</h2>
+      <p class="hint">Gera um CSV com data, local, valor, categoria e pagamento. Abre no Google Planilhas ou Excel.</p>
+      <div class="actions">
+        <button class="btn primary" id="dlCsv" type="button" hidden>Baixar planilha (.csv)</button>
+        <button class="btn" id="copyCsv" type="button">Copiar como planilha</button>
+      </div>
+      <textarea class="csv" id="csvBox" readonly hidden aria-label="Dados em CSV"></textarea>
+    </div>
+  </section>
+</main>
+
+<button class="fab" id="fab" type="button"><span>+</span> Novo gasto</button>
+
+<div class="scrim" id="scrim" hidden></div>
+
+<form class="sheet" id="sheet" hidden autocomplete="off">
+  <div class="inner">
+    <div class="grab"></div>
+    <h2 id="sheetTitle">Novo gasto</h2>
+    <div class="field">
+      <label for="fValor">Valor (R$)</label>
+      <input class="big" id="fValor" inputmode="decimal" placeholder="0,00" required>
+    </div>
+    <div class="field">
+      <label for="fLocal">Onde foi pago</label>
+      <input id="fLocal" placeholder="Ex.: Restaurante, posto, Uber…" list="placesList" required>
+      <datalist id="placesList"></datalist>
+    </div>
+    <div class="two">
+      <div class="field"><label for="fData">Data</label><input id="fData" type="date" required></div>
+      <div class="field"><label for="fHora">Hora (opcional)</label><input id="fHora" type="time"></div>
+    </div>
+    <div class="field"><span class="lbl">Categoria</span><div class="opts" id="fCats"></div></div>
+    <div class="field"><span class="lbl">Pagamento</span><div class="opts" id="fPays"></div></div>
+    <div class="field"><label for="fObs">Observação (opcional)</label><input id="fObs" placeholder="Ex.: jantar com a família"></div>
+    <p class="err" id="fErr" hidden></p>
+    <div class="actions">
+      <button class="btn danger" id="fDel" type="button" hidden>Excluir</button>
+      <div class="right">
+        <button class="btn" id="fCancel" type="button">Cancelar</button>
+        <button class="btn primary" id="fSave" type="submit">Salvar</button>
+      </div>
+    </div>
+  </div>
+</form>
+
+<form class="sheet" id="tripSheet" hidden autocomplete="off">
+  <div class="inner">
+    <div class="grab"></div>
+    <h2>Sobre a viagem</h2>
+    <div class="field"><label for="tNome">Nome da viagem</label><input id="tNome" placeholder="Ex.: Férias no Nordeste"></div>
+    <div class="two">
+      <div class="field"><label for="tIni">Início</label><input id="tIni" type="date"></div>
+      <div class="field"><label for="tFim">Fim</label><input id="tFim" type="date"></div>
+    </div>
+    <div class="field"><label for="tOrc">Orçamento total (R$, opcional)</label><input id="tOrc" inputmode="decimal" placeholder="Ex.: 5000"></div>
+    <div class="actions"><div class="right">
+      <button class="btn" id="tCancel" type="button">Cancelar</button>
+      <button class="btn primary" type="submit">Salvar</button>
+    </div></div>
+  </div>
+</form>
+
+<div class="toast" id="toast" hidden></div>
+
+<script>
+(() => {
+const CATS = ["Alimentação","Mercado","Combustível","Pedágio","Transporte","Hospedagem","Passeios","Compras","Saúde","Serviços","Outros"];
+const PAYS = ["Cartão de crédito","Pix","Débito","Dinheiro"];
+const brl = new Intl.NumberFormat("pt-BR",{style:"currency",currency:"BRL"});
+const fmt = v => brl.format(v||0);
+const $ = id => document.getElementById(id);
+const WD = ["Dom","Seg","Ter","Qua","Qui","Sex","Sáb"];
+
+let gastos = [];      // {id,data,hora,local,valor,categoria,meio,obs,criadoEm}
+let cfg = {};
+let api = null;       // {save(id,obj), del(id), saveCfg(obj)}
+let readOnly = false;
+let payFilter = "Todos";
+let editingId = null;
+
+const pad = n => String(n).padStart(2,"0");
+const isoToday = () => { const d=new Date(); return d.getFullYear()+"-"+pad(d.getMonth()+1)+"-"+pad(d.getDate()); };
+const parseISO = s => { const [y,m,d]=String(s).split("-").map(Number); return new Date(y,(m||1)-1,d||1); };
+const dayLabel = s => { const d=parseISO(s); return WD[d.getDay()]+", "+pad(d.getDate())+"/"+pad(d.getMonth()+1); };
+const shortDay = s => { const d=parseISO(s); return pad(d.getDate())+"/"+pad(d.getMonth()+1); };
+function parseMoney(str){
+  let s=String(str||"").replace(/[^\d,.-]/g,"").trim();
+  if(!s) return NaN;
+  if(s.includes(",")) s=s.replace(/\./g,"").replace(",",".");
+  else if((s.match(/\./g)||[]).length>1) s=s.replace(/\./g,"");
+  return Math.round(parseFloat(s)*100)/100;
+}
+const esc = s => String(s??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+
+function sorted(){
+  return [...gastos].sort((a,b)=> (b.data||"").localeCompare(a.data||"") || (b.hora||"").localeCompare(a.hora||"") || (b.criadoEm||"").localeCompare(a.criadoEm||""));
+}
+function tripDays(){
+  const dates = gastos.map(g=>g.data).filter(Boolean).sort();
+  let ini = cfg.inicio || dates[0];
+  if(!ini) return 0;
+  let fim = dates[dates.length-1] || ini;
+  const today = isoToday();
+  if(cfg.inicio){ fim = cfg.fim && cfg.fim < today ? cfg.fim : (today > fim ? today : fim); if(cfg.fim && fim>cfg.fim) fim=cfg.fim; }
+  const n = Math.round((parseISO(fim)-parseISO(ini))/86400000)+1;
+  return Math.max(1,n);
+}
+function groupSum(key){
+  const m=new Map(); for(const g of gastos){ const k=g[key]||"—"; m.set(k,(m.get(k)||0)+(+g.valor||0)); }
+  return [...m.entries()].sort((a,b)=>b[1]-a[1]);
+}
+
+function render(){
+  const total = gastos.reduce((s,g)=>s+(+g.valor||0),0);
+  const c = fmt(total).replace(/R\$[\s ]?/,"").trim();
+  $("total").innerHTML = "<small>R$</small>"+esc(c);
+  $("tripName").textContent = cfg.nome || "Viagem de férias";
+  const days = tripDays();
+  if(gastos.length){
+    const per = cfg.inicio ? (cfg.fim ? `${shortDay(cfg.inicio)} a ${shortDay(cfg.fim)}` : `desde ${shortDay(cfg.inicio)}`) : "";
+    $("meta").textContent = `${days} ${days===1?"dia":"dias"} de viagem${per?" · "+per:""}`;
+  } else $("meta").textContent = "Nenhum gasto lançado ainda.";
+  $("stAvg").textContent = days ? fmt(total/days) : "—";
+  const td = isoToday();
+  $("stToday").textContent = fmt(gastos.filter(g=>g.data===td).reduce((s,g)=>s+(+g.valor||0),0));
+  $("stCount").textContent = gastos.length;
+
+  const orc = +cfg.orcamento||0;
+  $("budget").hidden = !orc;
+  if(orc){
+    const pct = Math.min(100,total/orc*100);
+    $("budgetBar").classList.toggle("over", total>orc);
+    $("budgetBar").firstElementChild.style.width = pct+"%";
+    $("budgetUsed").textContent = `${Math.round(total/orc*100)}% de ${fmt(orc)}`;
+    $("budgetLeft").textContent = total>orc ? `${fmt(total-orc)} acima` : `restam ${fmt(orc-total)}`;
+  }
+
+  // filtros
+  const pays = ["Todos", ...PAYS.filter(p=>gastos.some(g=>g.meio===p)), ...[...new Set(gastos.map(g=>g.meio).filter(m=>m && !PAYS.includes(m)))]];
+  if(!pays.includes(payFilter)) payFilter="Todos";
+  $("filters").innerHTML = pays.length>2 ? pays.map(p=>`<button type="button" class="chip" aria-pressed="${p===payFilter}" data-pay="${esc(p)}">${esc(p)}</button>`).join("") : "";
+
+  // lista
+  const list = sorted().filter(g=>payFilter==="Todos"||g.meio===payFilter);
+  if(!gastos.length){
+    $("list").innerHTML = `<div class="empty"><strong>Sua caderneta está vazia</strong>Toque em “Novo gasto” para lançar o primeiro: valor, onde pagou, data e categoria.</div>`;
+  } else {
+    const byDay = new Map(); for(const g of list){ if(!byDay.has(g.data)) byDay.set(g.data,[]); byDay.get(g.data).push(g); }
+    let html="";
+    for(const [d,items] of byDay){
+      const sum = items.reduce((s,g)=>s+(+g.valor||0),0);
+      html += `<div class="day"><div class="dayhead"><h3>${esc(dayLabel(d))}</h3><span class="num">${fmt(sum)}</span></div>`;
+      for(const g of items){
+        html += `<button type="button" class="item" data-id="${esc(g.id)}">
+          <span class="place">${esc(g.local)}</span><span class="val">${fmt(g.valor)}</span>
+          <span class="sub"><span class="tag">${esc(g.categoria||"Outros")}</span>${g.hora?esc(g.hora):""}${g.obs?" · "+esc(g.obs):""}</span><span class="pay">${esc(g.meio||"")}</span>
+        </button>`;
+      }
+      html += `</div>`;
+    }
+    $("list").innerHTML = html;
+  }
+
+  // análise
+  const rank = (rows, max) => rows.length ? rows.map(([k,v])=>`<div class="r"><span>${esc(k)}</span><span class="v">${fmt(v)}<em>${total?Math.round(v/total*100):0}%</em></span><div class="bar"><i style="width:${max?v/max*100:0}%"></i></div></div>`).join("") : `<p class="hint">Aparece aqui depois do primeiro lançamento.</p>`;
+  const cats = groupSum("categoria"); $("byCat").innerHTML = rank(cats, cats[0]?.[1]);
+  const pay = groupSum("meio"); $("byPay").innerHTML = rank(pay, pay[0]?.[1]);
+  const places = groupSum("local").slice(0,8); $("byPlace").innerHTML = rank(places, places[0]?.[1]);
+  const daysSum = groupSum("data").sort((a,b)=>a[0].localeCompare(b[0]));
+  const dmax = Math.max(0,...daysSum.map(d=>d[1]));
+  $("byDay").innerHTML = daysSum.length ? daysSum.map(([d,v])=>`<div class="col" title="${esc(dayLabel(d))}: ${fmt(v)}"><i style="height:${dmax?Math.max(2,v/dmax*100):0}%"><b>${Math.round(v)}</b></i><span>${esc(shortDay(d))}</span></div>`).join("") : `<p class="hint">Aparece aqui depois do primeiro lançamento.</p>`;
+
+  // sugestões de local
+  $("placesList").innerHTML = [...new Set(gastos.map(g=>g.local))].slice(0,40).map(p=>`<option value="${esc(p)}">`).join("");
+  $("fab").hidden = readOnly;
+}
+
+// --- abas e filtros
+function setTab(stats){
+  $("tabList").setAttribute("aria-selected", !stats); $("tabStats").setAttribute("aria-selected", stats);
+  $("viewList").hidden = stats; $("viewStats").hidden = !stats;
+}
+$("tabList").onclick = () => setTab(false);
+$("tabStats").onclick = () => setTab(true);
+$("filters").onclick = e => { const b=e.target.closest("[data-pay]"); if(b){ payFilter=b.dataset.pay; render(); } };
+$("list").onclick = e => { const b=e.target.closest("[data-id]"); if(b && !readOnly) openSheet(gastos.find(g=>g.id===b.dataset.id)); };
+
+// --- folha de gasto
+let fCat="Alimentação", fPay="Cartão de crédito";
+function drawOpts(){
+  $("fCats").innerHTML = CATS.map(c=>`<button type="button" class="chip" aria-pressed="${c===fCat}" data-c="${esc(c)}">${esc(c)}</button>`).join("");
+  $("fPays").innerHTML = PAYS.map(c=>`<button type="button" class="chip" aria-pressed="${c===fPay}" data-p="${esc(c)}">${esc(c)}</button>`).join("");
+}
+$("fCats").onclick = e => { const b=e.target.closest("[data-c]"); if(b){ fCat=b.dataset.c; drawOpts(); } };
+$("fPays").onclick = e => { const b=e.target.closest("[data-p]"); if(b){ fPay=b.dataset.p; drawOpts(); } };
+
+function showSheet(el){ $("scrim").hidden=false; el.hidden=false; }
+function hideSheets(){ $("scrim").hidden=true; $("sheet").hidden=true; $("tripSheet").hidden=true; disarm(); }
+$("scrim").onclick = hideSheets;
+document.addEventListener("keydown", e => { if(e.key==="Escape") hideSheets(); });
+
+function openSheet(g){
+  editingId = g?.id || null;
+  $("sheetTitle").textContent = g ? "Editar gasto" : "Novo gasto";
+  $("fValor").value = g ? String(g.valor.toFixed(2)).replace(".",",") : "";
+  $("fLocal").value = g?.local || "";
+  $("fData").value = g?.data || isoToday();
+  $("fHora").value = g?.hora || "";
+  $("fObs").value = g?.obs || "";
+  fCat = g?.categoria || "Alimentação"; fPay = g?.meio || (gastos[0] ? sorted()[0].meio : "Cartão de crédito") || "Cartão de crédito";
+  if(!PAYS.includes(fPay)) fPay="Cartão de crédito";
+  drawOpts();
+  $("fDel").hidden = !g; $("fErr").hidden = true;
+  showSheet($("sheet"));
+  if(!g) setTimeout(()=>$("fValor").focus(), 60);
+}
+$("fab").onclick = () => openSheet(null);
+$("fCancel").onclick = hideSheets;
+
+$("sheet").addEventListener("submit", async e => {
+  e.preventDefault();
+  const valor = parseMoney($("fValor").value);
+  const local = $("fLocal").value.trim();
+  const err = m => { $("fErr").textContent=m; $("fErr").hidden=false; };
+  if(!(valor>0)) return err("Digite o valor, por exemplo 58,48.");
+  if(!local) return err("Diga onde foi pago.");
+  if(!$("fData").value) return err("Escolha a data.");
+  const prev = editingId ? gastos.find(g=>g.id===editingId) : null;
+  const obj = { data:$("fData").value, hora:$("fHora").value||"", local, valor, categoria:fCat, meio:fPay, obs:$("fObs").value.trim(),
+    criadoEm: prev?.criadoEm || new Date().toISOString() };
+  $("fSave").disabled = true;
+  try{ await api.save(editingId, obj); hideSheets(); toast(editingId?"Gasto atualizado":"Gasto salvo"); }
+  catch(x){ err(saveErr(x)); }
+  finally{ $("fSave").disabled = false; }
+});
+
+let armT=null;
+function disarm(){ clearTimeout(armT); $("fDel").classList.remove("armed"); $("fDel").textContent="Excluir"; }
+$("fDel").onclick = async () => {
+  const b=$("fDel");
+  if(!b.classList.contains("armed")){ b.classList.add("armed"); b.textContent="Toque de novo para excluir"; armT=setTimeout(disarm,4000); return; }
+  disarm();
+  try{ await api.del(editingId); hideSheets(); toast("Gasto excluído"); }
+  catch(x){ $("fErr").textContent=saveErr(x); $("fErr").hidden=false; }
+};
+
+// --- folha da viagem
+$("editTripBtn").onclick = () => {
+  $("tNome").value=cfg.nome||""; $("tIni").value=cfg.inicio||""; $("tFim").value=cfg.fim||"";
+  $("tOrc").value = cfg.orcamento ? String(cfg.orcamento).replace(".",",") : "";
+  showSheet($("tripSheet"));
+};
+$("tCancel").onclick = hideSheets;
+$("tripSheet").addEventListener("submit", async e => {
+  e.preventDefault();
+  const o = parseMoney($("tOrc").value);
+  const next = { nome:$("tNome").value.trim(), inicio:$("tIni").value||"", fim:$("tFim").value||"", orcamento: o>0?o:0 };
+  try{ await api.saveCfg(next); hideSheets(); toast("Viagem atualizada"); } catch(x){ toast(saveErr(x)); }
+});
+
+// --- CSV
+function csv(){
+  const q = v => { const s=String(v??""); return /[;"\n]/.test(s) ? '"'+s.replace(/"/g,'""')+'"' : s; };
+  const rows = [["Data","Hora","Local","Valor","Categoria","Pagamento","Observação"]];
+  for(const g of [...sorted()].reverse()) rows.push([shortDay(g.data)+"/"+g.data.slice(0,4), g.hora||"", g.local, (+g.valor).toFixed(2).replace(".",","), g.categoria, g.meio, g.obs||""]);
+  return rows.map(r=>r.map(q).join(";")).join("\n");
+}
+$("copyCsv").onclick = () => {
+  const text = csv();
+  const box=$("csvBox");
+  const fallback = () => { box.value=text; box.hidden=false; box.focus(); box.select(); toast("Selecionado — use Copiar"); };
+  try{ navigator.clipboard.writeText(text).then(()=>toast("Copiado! Cole na planilha"), fallback); } catch{ fallback(); }
+};
+
+function toast(m){ const t=$("toast"); t.textContent=m; t.hidden=false; clearTimeout(toast.t); toast.t=setTimeout(()=>t.hidden=true,2200); }
+function saveErr(x){
+  if(x && x.code==="invalid_argument"){ readOnly=true; render(); return "Você não tem permissão para alterar esta caderneta."; }
+  if(x && x.code==="quota_exceeded") return "A caderneta está cheia. Exclua lançamentos antigos para continuar.";
+  return "Não consegui salvar agora. Confira a internet e tente de novo.";
+}
+function setStatus(msg, warn){ const s=$("status"); s.hidden=!msg; s.textContent=msg||""; s.classList.toggle("warn",!!warn); }
+
+// --- armazenamento
+function useLocal(reason){
+  const K="gastos-viagem-v1";
+  const load = () => { try{ const d=JSON.parse(localStorage.getItem(K)||"{}"); gastos=d.gastos||[]; cfg=d.cfg||{}; }catch{} };
+  const persist = () => { try{ localStorage.setItem(K, JSON.stringify({gastos,cfg})); }catch{} };
+  load();
+  api = {
+    async save(id,obj){ if(id){ gastos=gastos.map(g=>g.id===id?{...obj,id}:g); } else gastos.push({...obj,id:"l"+Date.now().toString(36)}); persist(); render(); },
+    async del(id){ gastos=gastos.filter(g=>g.id!==id); persist(); render(); },
+    async saveCfg(o){ cfg=o; persist(); render(); }
+  };
+  setStatus(reason, true); render();
+}
+
+async function boot(){
+  render();
+  const use = window.claude && window.claude.use;
+  if(!use){ useLocal("Modo offline: os gastos ficam só neste aparelho e o Claude não consegue lê-los. Abra pelo claude.ai para salvar na nuvem."); return; }
+  let db=null; try{ db = await window.claude.use("db"); }catch{}
+  if(!db){ useLocal("Não consegui conectar ao armazenamento da caderneta. Entre na sua conta do claude.ai para salvar na nuvem; por enquanto os gastos ficam só neste aparelho."); return; }
+  try{ const user = await window.claude.use("user"); if(user){ const can = await user.can("data.write"); if(can===false) readOnly=true; } }catch{}
+  const col = db.collection("gastos");
+  const cfgRef = db.doc("config/viagem");
+  api = {
+    async save(id,obj){ if(id) await col.doc(id).set(obj); else await col.add(obj); },
+    async del(id){ await col.doc(id).delete(); },
+    async saveCfg(o){ await cfgRef.set(o); }
+  };
+  let first=true;
+  const timer = setTimeout(()=>{ if(first) setStatus("Ainda não consegui carregar os gastos. Confira a internet; eles aparecem assim que a conexão voltar.", true); }, 10000);
+  col.onSnapshot(s => {
+    gastos = s.docs.map(d=>({id:d.id, ...d.data()}));
+    if(!s.metadata.fromCache && first){ first=false; clearTimeout(timer); setStatus(readOnly?"Você está vendo a caderneta só para leitura.":""); }
+    render();
+  }, e => { clearTimeout(timer); setStatus("A conexão com a caderneta caiu. Recarregue a página para tentar de novo.", true); });
+  cfgRef.onSnapshot(s => { cfg = s.exists ? {...s.data()} : {}; render(); }, () => {});
+  try{ const dl = await window.claude.use("downloads"); if(dl){ $("dlCsv").hidden=false; $("dlCsv").onclick = async () => {
+    try{ const r = await dl.save({filename:"gastos-viagem.csv", data:"﻿"+csv()}); if(r && r.status==="saved") toast("Planilha salva"); }catch{} }; } }catch{}
+}
+boot();
+})();
+</script>
