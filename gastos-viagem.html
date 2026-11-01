@@ -68,7 +68,9 @@ button:focus-visible, input:focus-visible, select:focus-visible, textarea:focus-
 .day{display:flex; flex-direction:column}
 .dayhead{display:flex; justify-content:space-between; align-items:baseline; padding:14px 2px 8px; border-bottom:1px solid var(--line); gap:8px}
 .dayhead h3{font-size:16px; font-weight:600}
-.dayhead .num{color:var(--muted); font-size:14px}
+.dayhead .num{color:var(--muted); font-size:14px; text-align:right}
+.dm{font-style:normal; font-family:var(--f-body); font-size:12px; font-weight:600; margin-right:8px}
+.dm.over{color:var(--bad)} .dm.ok{color:var(--accent)}
 .item{display:grid; grid-template-columns:minmax(0,1fr) auto; gap:2px 12px; padding:12px 2px; border:0; border-bottom:1px solid var(--line);
   background:none; text-align:left; width:100%}
 .item:hover{background:color-mix(in srgb, var(--accent) 5%, transparent)}
@@ -143,7 +145,7 @@ textarea.csv{width:100%; min-height:120px; font:12px var(--f-num); background:va
 
   <div class="stats">
     <div class="stat"><b id="stAvg">—</b><span>média por dia</span></div>
-    <div class="stat"><b id="stToday">—</b><span>gasto hoje</span></div>
+    <div class="stat"><b id="stToday">—</b><span id="stTodayLbl">gasto hoje</span></div>
     <div class="stat"><b id="stCount">0</b><span>lançamentos</span></div>
   </div>
 
@@ -220,7 +222,10 @@ textarea.csv{width:100%; min-height:120px; font:12px var(--f-num); background:va
       <div class="field"><label for="tIni">Início</label><input id="tIni" type="date"></div>
       <div class="field"><label for="tFim">Fim</label><input id="tFim" type="date"></div>
     </div>
-    <div class="field"><label for="tOrc">Orçamento total (R$, opcional)</label><input id="tOrc" inputmode="decimal" placeholder="Ex.: 5000"></div>
+    <div class="two">
+      <div class="field"><label for="tMeta">Meta por dia (R$)</label><input id="tMeta" inputmode="decimal" placeholder="Ex.: 100"></div>
+      <div class="field"><label for="tOrc">Orçamento total (R$)</label><input id="tOrc" inputmode="decimal" placeholder="Ex.: 500"></div>
+    </div>
     <div class="actions"><div class="right">
       <button class="btn" id="tCancel" type="button">Cancelar</button>
       <button class="btn primary" type="submit">Salvar</button>
@@ -232,7 +237,7 @@ textarea.csv{width:100%; min-height:120px; font:12px var(--f-num); background:va
 
 <script>
 (() => {
-const CATS = ["Alimentação","Mercado","Combustível","Pedágio","Transporte","Hospedagem","Passeios","Compras","Saúde","Serviços","Outros"];
+const CATS = ["Alimentação","Mercado","Combustível","Pedágio","Estacionamento","Transporte","Hospedagem","Passeios","Compras","Saúde","Serviços","Outros"];
 const PAYS = ["Cartão de crédito","Pix","Débito","Dinheiro"];
 const brl = new Intl.NumberFormat("pt-BR",{style:"currency",currency:"BRL"});
 const fmt = v => brl.format(v||0);
@@ -300,8 +305,12 @@ function render(){
     $("budgetBar").classList.toggle("over", total>orc);
     $("budgetBar").firstElementChild.style.width = pct+"%";
     $("budgetUsed").textContent = `${Math.round(total/orc*100)}% de ${fmt(orc)}`;
-    $("budgetLeft").textContent = total>orc ? `${fmt(total-orc)} acima` : `restam ${fmt(orc-total)}`;
+    let left = 0;
+    if(cfg.fim){ const from = cfg.inicio && cfg.inicio > td ? cfg.inicio : td; left = Math.max(0, Math.round((parseISO(cfg.fim)-parseISO(from))/86400000)+1); }
+    $("budgetLeft").textContent = total>orc ? `${fmt(total-orc)} acima` : `restam ${fmt(orc-total)}` + (left ? ` · ${fmt((orc-total)/left)}/dia` : "");
   }
+  const metaDia = +cfg.metaDia||0;
+  $("stTodayLbl").textContent = metaDia ? `hoje · meta ${fmt(metaDia).replace(/,00$/,"")}` : "gasto hoje";
 
   // filtros
   const pays = ["Todos", ...PAYS.filter(p=>gastos.some(g=>g.meio===p)), ...[...new Set(gastos.map(g=>g.meio).filter(m=>m && !PAYS.includes(m)))]];
@@ -317,7 +326,9 @@ function render(){
     let html="";
     for(const [d,items] of byDay){
       const sum = items.reduce((s,g)=>s+(+g.valor||0),0);
-      html += `<div class="day"><div class="dayhead"><h3>${esc(dayLabel(d))}</h3><span class="num">${fmt(sum)}</span></div>`;
+      const inTrip = metaDia && (!cfg.inicio || d >= cfg.inicio) && (!cfg.fim || d <= cfg.fim);
+      const dm = inTrip ? `<em class="dm ${sum>metaDia?"over":"ok"}">${sum>metaDia?"+"+fmt(sum-metaDia)+" da meta":"dentro da meta"}</em>` : "";
+      html += `<div class="day"><div class="dayhead"><h3>${esc(dayLabel(d))}</h3><span class="num">${dm}${fmt(sum)}</span></div>`;
       for(const g of items){
         html += `<button type="button" class="item" data-id="${esc(g.id)}">
           <span class="place">${esc(g.local)}</span><span class="val">${fmt(g.valor)}</span>
@@ -416,13 +427,15 @@ $("fDel").onclick = async () => {
 $("editTripBtn").onclick = () => {
   $("tNome").value=cfg.nome||""; $("tIni").value=cfg.inicio||""; $("tFim").value=cfg.fim||"";
   $("tOrc").value = cfg.orcamento ? String(cfg.orcamento).replace(".",",") : "";
+  $("tMeta").value = cfg.metaDia ? String(cfg.metaDia).replace(".",",") : "";
   showSheet($("tripSheet"));
 };
 $("tCancel").onclick = hideSheets;
 $("tripSheet").addEventListener("submit", async e => {
   e.preventDefault();
   const o = parseMoney($("tOrc").value);
-  const next = { nome:$("tNome").value.trim(), inicio:$("tIni").value||"", fim:$("tFim").value||"", orcamento: o>0?o:0 };
+  const md = parseMoney($("tMeta").value);
+  const next = { ...cfg, nome:$("tNome").value.trim(), inicio:$("tIni").value||"", fim:$("tFim").value||"", orcamento: o>0?o:0, metaDia: md>0?md:0 };
   try{ await api.saveCfg(next); hideSheets(); toast("Viagem atualizada"); } catch(x){ toast(saveErr(x)); }
 });
 
