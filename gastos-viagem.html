@@ -76,6 +76,7 @@ button:focus-visible, input:focus-visible, select:focus-visible, textarea:focus-
 .item:hover{background:color-mix(in srgb, var(--accent) 5%, transparent)}
 .item .place{font-weight:600; overflow-wrap:anywhere}
 .item .val{font-family:var(--f-num); font-weight:500; text-align:right; white-space:nowrap}
+.item .val.in{color:var(--accent)}
 .item .sub{font-size:13px; color:var(--muted); display:flex; gap:6px; flex-wrap:wrap; align-items:center}
 .item .pay{font-size:12px; color:var(--muted); text-align:right}
 .tag{font-size:11px; padding:1px 7px; border-radius:99px; background:var(--chip); color:var(--ink); font-weight:600; letter-spacing:.02em}
@@ -186,6 +187,7 @@ textarea.csv{width:100%; min-height:120px; font:12px var(--f-num); background:va
   <div class="inner">
     <div class="grab"></div>
     <h2 id="sheetTitle">Novo gasto</h2>
+    <div class="field"><span class="lbl">Tipo</span><div class="opts" id="fTipo"></div></div>
     <div class="field">
       <label for="fValor">Valor (R$)</label>
       <input class="big" id="fValor" inputmode="decimal" placeholder="0,00" required>
@@ -237,7 +239,7 @@ textarea.csv{width:100%; min-height:120px; font:12px var(--f-num); background:va
 
 <script>
 (() => {
-const CATS = ["Alimentação","Mercado","Combustível","Pedágio","Estacionamento","Transporte","Hospedagem","Passeios","Compras","Saúde","Serviços","Outros"];
+const CATS = ["Alimentação","Mercado","Combustível","Pedágio","Estacionamento","Transporte","Hospedagem","Passeios","Compras","Saúde","Serviços","Outros","Recebido"];
 const PAYS = ["Cartão de crédito","Pix","Débito","Dinheiro"];
 const brl = new Intl.NumberFormat("pt-BR",{style:"currency",currency:"BRL"});
 const fmt = v => brl.format(v||0);
@@ -291,7 +293,8 @@ function render(){
   const days = tripDays();
   if(gastos.length){
     const per = cfg.inicio ? (cfg.fim ? `${shortDay(cfg.inicio)} a ${shortDay(cfg.fim)}` : `desde ${shortDay(cfg.inicio)}`) : "";
-    $("meta").textContent = `${days} ${days===1?"dia":"dias"} de viagem${per?" · "+per:""}`;
+    const rec = -gastos.filter(g=>g.valor<0).reduce((s,g)=>s+(+g.valor||0),0);
+    $("meta").textContent = `${days} ${days===1?"dia":"dias"} de viagem${per?" · "+per:""}${rec?` · já desconta ${fmt(rec)} recebidos`:""}`;
   } else $("meta").textContent = "Nenhum gasto lançado ainda.";
   $("stAvg").textContent = days ? fmt(total/days) : "—";
   const td = isoToday();
@@ -331,7 +334,7 @@ function render(){
       html += `<div class="day"><div class="dayhead"><h3>${esc(dayLabel(d))}</h3><span class="num">${dm}${fmt(sum)}</span></div>`;
       for(const g of items){
         html += `<button type="button" class="item" data-id="${esc(g.id)}">
-          <span class="place">${esc(g.local)}</span><span class="val">${fmt(g.valor)}</span>
+          <span class="place">${esc(g.local)}</span><span class="val${g.valor<0?" in":""}">${g.valor<0?"+"+fmt(-g.valor):fmt(g.valor)}</span>
           <span class="sub"><span class="tag">${esc(g.categoria||"Outros")}</span>${g.hora?esc(g.hora):""}${g.obs?" · "+esc(g.obs):""}</span><span class="pay">${esc(g.meio||"")}</span>
         </button>`;
       }
@@ -341,7 +344,7 @@ function render(){
   }
 
   // análise
-  const rank = (rows, max) => rows.length ? rows.map(([k,v])=>`<div class="r"><span>${esc(k)}</span><span class="v">${fmt(v)}<em>${total?Math.round(v/total*100):0}%</em></span><div class="bar"><i style="width:${max?v/max*100:0}%"></i></div></div>`).join("") : `<p class="hint">Aparece aqui depois do primeiro lançamento.</p>`;
+  const rank = (all, max) => { const rows = all.filter(r=>r[1]>0); return rows.length ? rows.map(([k,v])=>`<div class="r"><span>${esc(k)}</span><span class="v">${fmt(v)}<em>${total?Math.round(v/total*100):0}%</em></span><div class="bar"><i style="width:${max?v/max*100:0}%"></i></div></div>`).join("") : `<p class="hint">Aparece aqui depois do primeiro lançamento.</p>`; };
   const cats = groupSum("categoria"); $("byCat").innerHTML = rank(cats, cats[0]?.[1]);
   const pay = groupSum("meio"); $("byPay").innerHTML = rank(pay, pay[0]?.[1]);
   const places = groupSum("local").slice(0,8); $("byPlace").innerHTML = rank(places, places[0]?.[1]);
@@ -365,12 +368,14 @@ $("filters").onclick = e => { const b=e.target.closest("[data-pay]"); if(b){ pay
 $("list").onclick = e => { const b=e.target.closest("[data-id]"); if(b && !readOnly) openSheet(gastos.find(g=>g.id===b.dataset.id)); };
 
 // --- folha de gasto
-let fCat="Alimentação", fPay="Cartão de crédito";
+let fCat="Alimentação", fPay="Cartão de crédito", fTipo="gasto";
 function drawOpts(){
+  $("fTipo").innerHTML = [["gasto","Gasto"],["recebido","Dinheiro recebido"]].map(([k,l])=>`<button type="button" class="chip" aria-pressed="${k===fTipo}" data-t="${k}">${l}</button>`).join("");
   $("fCats").innerHTML = CATS.map(c=>`<button type="button" class="chip" aria-pressed="${c===fCat}" data-c="${esc(c)}">${esc(c)}</button>`).join("");
   $("fPays").innerHTML = PAYS.map(c=>`<button type="button" class="chip" aria-pressed="${c===fPay}" data-p="${esc(c)}">${esc(c)}</button>`).join("");
 }
 $("fCats").onclick = e => { const b=e.target.closest("[data-c]"); if(b){ fCat=b.dataset.c; drawOpts(); } };
+$("fTipo").onclick = e => { const b=e.target.closest("[data-t]"); if(b){ fTipo=b.dataset.t; if(fTipo==="recebido") fCat="Recebido"; else if(fCat==="Recebido") fCat="Outros"; drawOpts(); } };
 $("fPays").onclick = e => { const b=e.target.closest("[data-p]"); if(b){ fPay=b.dataset.p; drawOpts(); } };
 
 function showSheet(el){ $("scrim").hidden=false; el.hidden=false; }
@@ -381,7 +386,8 @@ document.addEventListener("keydown", e => { if(e.key==="Escape") hideSheets(); }
 function openSheet(g){
   editingId = g?.id || null;
   $("sheetTitle").textContent = g ? "Editar gasto" : "Novo gasto";
-  $("fValor").value = g ? String(g.valor.toFixed(2)).replace(".",",") : "";
+  fTipo = g && g.valor < 0 ? "recebido" : "gasto";
+  $("fValor").value = g ? String(Math.abs(g.valor).toFixed(2)).replace(".",",") : "";
   $("fLocal").value = g?.local || "";
   $("fData").value = g?.data || isoToday();
   $("fHora").value = g?.hora || "";
@@ -405,7 +411,7 @@ $("sheet").addEventListener("submit", async e => {
   if(!local) return err("Diga onde foi pago.");
   if(!$("fData").value) return err("Escolha a data.");
   const prev = editingId ? gastos.find(g=>g.id===editingId) : null;
-  const obj = { data:$("fData").value, hora:$("fHora").value||"", local, valor, categoria:fCat, meio:fPay, obs:$("fObs").value.trim(),
+  const obj = { data:$("fData").value, hora:$("fHora").value||"", local, valor: fTipo==="recebido" ? -valor : valor, categoria:fCat, meio:fPay, obs:$("fObs").value.trim(),
     criadoEm: prev?.criadoEm || new Date().toISOString() };
   $("fSave").disabled = true;
   try{ await api.save(editingId, obj); hideSheets(); toast(editingId?"Gasto atualizado":"Gasto salvo"); }
