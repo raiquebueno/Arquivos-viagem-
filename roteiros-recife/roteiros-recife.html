@@ -1,0 +1,1296 @@
+<title>Roteiros de Recife</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,800&family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400&display=swap">
+<style>
+/* Layout: one reading column; sticky chip bar jumps between the 10 guides, each a self-contained section */
+:root{
+  --bg:#f3f7f7; --paper:#ffffff; --ink:#15262b; --muted:#56696e;
+  --sea:#0a6377; --reef:#e2614a; --sand:#f6e7c8; --line:#d6e2e3; --rowalt:#eef4f4;
+  --display:"Bricolage Grotesque", "Segoe UI", system-ui, sans-serif;
+  --body:"Atkinson Hyperlegible", "Segoe UI", system-ui, sans-serif;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#0d1a1d; --paper:#132428; --ink:#e4eeef; --muted:#9bb0b4;
+  --sea:#5cc3d6; --reef:#ff8a73; --sand:#3a321f; --line:#26393d; --rowalt:#172b30; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#0d1a1d; --paper:#132428; --ink:#e4eeef; --muted:#9bb0b4;
+  --sea:#5cc3d6; --reef:#ff8a73; --sand:#3a321f; --line:#26393d; --rowalt:#172b30; color-scheme:dark}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth;scroll-padding-top:calc(env(safe-area-inset-top,0px) + 64px)}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+body{background:var(--bg);color:var(--ink);font-family:var(--body);font-size:16px;line-height:1.55}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:10;background:var(--sea)}
+.wrap{max-width:760px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+header.hero{background:var(--sea);color:#fff}
+header.hero .wrap{padding-block:36px 28px}
+.hero p.k{margin:0 0 6px;font-size:.8rem;letter-spacing:.12em;text-transform:uppercase;opacity:.85}
+.hero h1{font-family:var(--display);font-weight:800;font-size:clamp(2rem,7vw,3.2rem);line-height:1.02;margin:0;text-wrap:balance}
+.hero p.d{margin:12px 0 0;max-width:55ch;opacity:.92}
+nav.chips{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:var(--bg);border-bottom:1px solid var(--line)}
+nav.chips .wrap{display:flex;gap:8px;overflow-x:auto;padding-block:10px;scrollbar-width:none}
+nav.chips .wrap::-webkit-scrollbar{display:none}
+nav.chips a{flex:none;text-decoration:none;color:var(--ink);border:1px solid var(--line);background:var(--paper);padding:6px 12px;border-radius:999px;font-size:.88rem;white-space:nowrap}
+nav.chips a:hover,nav.chips a:focus-visible{border-color:var(--sea);color:var(--sea);outline:none}
+main .wrap{display:flex;flex-direction:column;gap:20px;padding-block:24px 48px}
+.doc{background:var(--paper);border:1px solid var(--line);border-radius:10px;padding:22px clamp(16px,4vw,32px);min-width:0}
+.eyebrow{margin:0 0 4px;font-size:.75rem;letter-spacing:.14em;text-transform:uppercase;color:var(--reef);font-weight:700}
+.doc h1{font-family:var(--display);font-weight:800;font-size:1.7rem;line-height:1.12;color:var(--sea);margin:0 0 14px;text-wrap:balance}
+.doc h2{font-family:var(--display);font-weight:600;font-size:1.3rem;margin:1.6em 0 .4em;color:var(--sea);text-wrap:balance}
+.doc h3{font-family:var(--display);font-weight:600;font-size:1.1rem;margin:1.4em 0 .3em;padding-top:.6em;border-top:1px dashed var(--line);text-wrap:balance}
+.doc p,.doc li{max-width:68ch}
+.doc ul,.doc ol{padding-left:1.2em}
+.doc li{margin:.25em 0}
+.doc strong{font-weight:700}
+.doc a{color:var(--sea)}
+.doc hr{border:0;border-top:1px solid var(--line);margin:1.2em 0}
+.doc blockquote{margin:1em 0;padding:10px 14px;background:var(--sand);border-radius:6px}
+.doc blockquote p{margin:.3em 0}
+.tbl{overflow-x:auto;margin:12px 0}
+table{border-collapse:collapse;width:100%;font-size:.92rem;font-variant-numeric:tabular-nums}
+th{text-align:left;background:var(--sea);color:var(--bg);font-weight:700}
+th,td{padding:7px 9px;border-bottom:1px solid var(--line);vertical-align:top}
+tr:nth-child(even) td{background:var(--rowalt)}
+a.top{display:inline-block;margin-top:16px;font-size:.85rem;color:var(--muted);text-decoration:none}
+a.top:hover{color:var(--sea)}
+footer{color:var(--muted);font-size:.85rem;text-align:center;padding-bottom:32px}
+</style>
+<header class="hero" id="inicio"><div class="wrap">
+<p class="k">Recife · 30/10 a 04/11/2026</p>
+<h1>Roteiros de Recife</h1>
+<p class="d">Resumo e dicas, as 8 opções de roteiro e as hospedagens por base, tudo numa página só. Use a barra abaixo para pular entre eles.</p>
+</div></header>
+<nav class="chips" aria-label="Seções"><div class="wrap"><a href="#resumo">Resumo</a><a href="#opcao-1">1 · Clássico</a><a href="#opcao-2">2 · Só praia</a><a href="#opcao-3">3 · Cultura</a><a href="#opcao-4">4 · Norte e JP</a><a href="#opcao-5">5 · Noronha</a><a href="#opcao-6">6 · Muro Alto</a><a href="#opcao-7">7 · Road trip</a><a href="#opcao-8">8 · Aventura</a><a href="#hospedagens">Hospedagens</a></div></nav>
+<main><div class="wrap">
+<section class="doc" id="resumo"><p class="eyebrow">Guia</p><h1>Recife com o irmão — 30/10
+a 04/11/2026</h1>
+<p><strong>Chegada:</strong> sexta 30/10 à noite ·
+<strong>Volta:</strong> quarta 04/11 à noite<br />
+Na prática: 4 dias cheios (sáb a ter) + o dia de quarta até a hora de ir
+ao aeroporto.</p>
+<h2>Calendário da viagem</h2>
+<div class="tbl"><table>
+<thead>
+<tr class="header">
+<th>Dia</th>
+<th>Data</th>
+<th>Observação</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Sexta</td>
+<td>30/10</td>
+<td>Chegada à noite</td>
+</tr>
+<tr class="even">
+<td>Sábado</td>
+<td>31/10</td>
+<td>Dia cheio</td>
+</tr>
+<tr class="odd">
+<td>Domingo</td>
+<td>01/11</td>
+<td>Dia cheio</td>
+</tr>
+<tr class="even">
+<td>Segunda</td>
+<td>02/11</td>
+<td><strong>Feriado de Finados</strong>: museus de Recife costumam
+fechar às segundas</td>
+</tr>
+<tr class="odd">
+<td>Terça</td>
+<td>03/11</td>
+<td>Dia cheio</td>
+</tr>
+<tr class="even">
+<td>Quarta</td>
+<td>04/11</td>
+<td>Dia livre até a noite (deixe a mala no hotel ou no carro)</td>
+</tr>
+</tbody>
+</table></div>
+<h2>As 8 opções</h2>
+<div class="tbl"><table>
+<thead>
+<tr class="header">
+<th>#</th>
+<th>Nome</th>
+<th>Estilo</th>
+<th>Base</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>1</td>
+<td><a href="#opcao-1">Clássico equilibrado</a></td>
+<td>Um pouco de tudo: cidade, Olinda, Porto de Galinhas, Carneiros</td>
+<td>Recife (Boa Viagem)</td>
+</tr>
+<tr class="even">
+<td>2</td>
+<td><a href="#opcao-2">Litoral Sul: só praia</a></td>
+<td>Praia todos os dias, sem pressa</td>
+<td>Porto de Galinhas + Recife</td>
+</tr>
+<tr class="odd">
+<td>3</td>
+<td><a href="#opcao-3">Cultura, forró e interior</a></td>
+<td>Museus, Olinda, Caruaru, Gravatá, vida noturna</td>
+<td>Recife</td>
+</tr>
+<tr class="even">
+<td>4</td>
+<td><a href="#opcao-4">Rumo ao norte: Itamaracá + João Pessoa</a></td>
+<td>Ilhas, fortes e uma noite na Paraíba</td>
+<td>Recife + João Pessoa</td>
+</tr>
+<tr class="odd">
+<td>5</td>
+<td><a href="#opcao-5">Fernando de Noronha express</a></td>
+<td>A mais cara e a mais marcante</td>
+<td>Noronha (3 noites) + Recife</td>
+</tr>
+<tr class="even">
+<td>6</td>
+<td><a href="#opcao-6">Base única em Muro Alto</a></td>
+<td>Modo férias: sem trocar de hotel, com Muro Alto, Maracaípe e
+Carneiros</td>
+<td>Muro Alto (5 noites)</td>
+</tr>
+<tr class="odd">
+<td>7</td>
+<td><a href="#opcao-7">Road trip até Maragogi</a></td>
+<td>Descer o litoral dormindo perto de cada praia, com bônus em
+Alagoas</td>
+<td>Recife + Maracaípe + Carneiros</td>
+</tr>
+<tr class="even">
+<td>8</td>
+<td><a href="#opcao-8">Ação e aventura</a></td>
+<td>Surf, mergulho, buggy, tirolesa e noite em Porto e Recife</td>
+<td>Porto de Galinhas + Recife</td>
+</tr>
+</tbody>
+</table></div>
+<p><strong>Onde ficar:</strong> veja <a
+href="09%20-%20Hospedagens%20(hotel%20e%20Airbnb).md">09 -
+Hospedagens</a>, com 4 opções por base (2 baratas + 2
+custo-benefício).</p>
+<h2>Dicas que valem para todas</h2>
+<ul>
+<li><strong>Carro alugado</strong> compensa muito se forem fazer
+bate-voltas (Porto, Carneiros, Caruaru, João Pessoa). Em Recife e
+Olinda, Uber/99 resolvem bem.</li>
+<li><strong>Tábua de marés:</strong> as piscinas naturais de Porto de
+Galinhas, Picãozinho (João Pessoa), Coroa do Avião e Carneiros dependem
+de <strong>maré baixa</strong> (de preferência abaixo de 0,5 m). Confira
+a tábua para cada dia e ajuste a ordem dos dias se precisar: é a coisa
+mais importante do planejamento de praia.</li>
+<li><strong>Tubarões em Boa Viagem/Piedade:</strong> dá para entrar no
+mar na maré baixa dentro dos arrecifes, mas <strong>não nadem no
+fundo</strong> e respeitem as placas.</li>
+<li><strong>Sol:</strong> o sol nasce por volta de 5h e se põe perto de
+17h30. Comecem cedo e aproveitem a manhã.</li>
+<li><strong>Comidas para provar:</strong> bolo de rolo, cartola
+(sobremesa de banana com queijo), tapioca, caldinho de feijão, carne de
+sol, bode guisado, macaxeira, sorvete da Fri-Sabor ou de frutas
+regionais, cerveja gelada com agulhinha frita.</li>
+<li><strong>Horários de museus:</strong> Instituto Ricardo Brennand,
+Oficina Brennand, Paço do Frevo e Cais do Sertão costumam abrir de
+<strong>terça a domingo</strong>. Confirme no site antes, principalmente
+por causa do feriado.</li>
+<li><strong>Segurança:</strong> no Recife Antigo e no centro à noite,
+prefiram circular de Uber e evitar ruas vazias. Celular guardado na
+praia e em feira.</li>
+<li><strong>Reservas:</strong> passeios de buggy e jangada se compram na
+hora. Já catamarã, voos (Noronha) e pousadas no feriado devem ser
+<strong>reservados com antecedência</strong>: Finados costuma lotar o
+litoral.</li>
+</ul>
+<a class="top" href="#inicio">Voltar ao topo ↑</a></section>
+<section class="doc" id="opcao-1"><p class="eyebrow">Roteiro</p><h1>Opção 1: Clássico equilibrado</h1>
+<p><strong>Para quem:</strong> primeira vez em Recife e quer ver os
+pontos mais famosos sem correria.<br />
+<strong>Base:</strong> hotel em Boa Viagem durante toda a viagem.<br />
+<strong>Transporte:</strong> Uber na cidade + carro alugado (ou
+transfer/excursão) nos dias 2 e 4.</p>
+<hr />
+<h3>Sexta 30/10: chegada</h3>
+<ul>
+<li>Check-in em Boa Viagem.</li>
+<li>Jantar leve na orla: caldinho, petiscos e uma cerveja num quiosque
+ou bar da Av. Boa Viagem.</li>
+</ul>
+<h3>Sábado 31/10: Recife Antigo +
+Olinda</h3>
+<ul>
+<li><strong>Manhã:</strong> Marco Zero, Rua do Bom Jesus, Sinagoga Kahal
+Zur Israel (a primeira das Américas) e Paço do Frevo.</li>
+<li>Barquinho do Marco Zero até o <strong>Parque das Esculturas
+Francisco Brennand</strong>.</li>
+<li><strong>Almoço:</strong> Restaurante Leite, um dos mais antigos do
+país, ou algo no Recife Antigo.</li>
+<li><strong>Tarde:</strong> <strong>Olinda</strong>, a 20 min. Subam até
+o Alto da Sé para ver a vista de Recife, depois Mosteiro de São Bento,
+Igreja do Carmo e a Casa dos Bonecos Gigantes. Tapioca no Alto da Sé no
+fim da tarde.</li>
+<li><strong>Noite:</strong> bares de Olinda (o casario fica bonito à
+noite) ou o agito do Recife Antigo, que costuma ter música no
+sábado.</li>
+</ul>
+<h3>Domingo 01/11:
+Porto de Galinhas (bate-volta, ~1h15)</h3>
+<ul>
+<li>Saiam cedo e cheguem antes da maré baixa.</li>
+<li><strong>Piscinas naturais de jangada:</strong> dá para ver peixinhos
+e é o principal programa de lá.</li>
+<li>Passeio de <strong>buggy</strong> "ponta a ponta": Muro Alto, Cupe,
+Porto, Maracaípe e Pontal de Maracaípe, onde dá para fazer o passeio de
+barco para ver cavalos-marinhos.</li>
+<li>Pôr do sol no <strong>Pontal de Maracaípe</strong>.</li>
+<li>Volta para Recife à noite.</li>
+</ul>
+<h3>Segunda
+02/11 (Finados): Praia dos Carneiros (bate-volta, ~2h)</h3>
+<ul>
+<li>Escolham segunda para praia porque os museus fecham.</li>
+<li><strong>Igrejinha de São Benedito</strong> na beira da praia, banho
+de argila e piscinas naturais.</li>
+<li>Opção: passeio de catamarã que sai de Tamandaré ou Rio Formoso e
+passa pelo Rio Formoso e pela foz.</li>
+<li>Almoço num beach club da praia (peixe ou camarão).</li>
+<li>Noite tranquila em Boa Viagem, porque foi dia de estrada.</li>
+</ul>
+<h3>Terça 03/11: Brennand day</h3>
+<ul>
+<li><strong>Manhã:</strong> <strong>Instituto Ricardo Brennand</strong>,
+um castelo com armaduras, espadas e pinacoteca. Reservem de 2h30 a
+3h.</li>
+<li><strong>Tarde:</strong> <strong>Oficina Francisco Brennand</strong>,
+ali perto, com cerâmicas gigantes numa antiga olaria.</li>
+<li><strong>Fim de tarde:</strong> pôr do sol no rio Capibaribe. Pode
+ser um passeio de catamarã pelos rios e pontes de Recife.</li>
+<li><strong>Noite:</strong> jantar regional de despedida, com carne de
+sol, bode e macaxeira. Parraxaxá ou Bode do Nô são boas pedidas.</li>
+</ul>
+<h3>Quarta 04/11: último dia</h3>
+<ul>
+<li>Manhã de praia em <strong>Boa Viagem</strong>, com banho de mar só
+dentro dos arrecifes na maré baixa.</li>
+<li><strong>Mercado de São José</strong> e o centro para comprar
+lembranças: artesanato, cachaça e bolo de rolo para levar.</li>
+<li>Almoço, banho e ida ao aeroporto, que fica a 10-15 min de Boa
+Viagem.</li>
+</ul>
+<hr />
+<p><strong>Ponto forte:</strong> cobre os "obrigatórios" da
+região.<br />
+<strong>Ponto fraco:</strong> dois dias com bastante estrada (domingo e
+segunda).</p>
+<a class="top" href="#inicio">Voltar ao topo ↑</a></section>
+<section class="doc" id="opcao-2"><p class="eyebrow">Roteiro</p><h1>Opção 2: Litoral Sul, só
+praia</h1>
+<p><strong>Para quem:</strong> a ideia é descansar, tomar sol e
+mergulhar, com pouca cidade.<br />
+<strong>Base:</strong> 1 noite em Recife, 3 noites em <strong>Porto de
+Galinhas</strong> (ou Muro Alto) e a última noite livre, porque o voo é
+na quarta à noite.<br />
+<strong>Transporte:</strong> carro alugado é praticamente
+obrigatório.</p>
+<hr />
+<h3>Sexta 30/10: chegada</h3>
+<ul>
+<li>Peguem o carro no aeroporto e durmam em Boa Viagem. Também dá para
+ir direto para Porto (~1h15), se não chegarem muito tarde.</li>
+</ul>
+<h3>Sábado
+31/10: Cabo de Santo Agostinho → Porto de Galinhas</h3>
+<ul>
+<li>No caminho para o sul, parem na <strong>Praia de Calhetas</strong>,
+uma enseada pequena de água calma, ótima para snorkel. Tem tirolesa
+sobre o mar.</li>
+<li>Vista do alto na <strong>Vila de Nazaré</strong>, no Cabo, com farol
+e ruínas.</li>
+<li>Opcional: <strong>Praia do Paiva</strong> para quem quer uma praia
+mais vazia e arrumadinha.</li>
+<li>Check-in em Porto de Galinhas no fim da tarde e noite na
+<strong>vila</strong>, que tem muitos restaurantes e lojinhas.</li>
+</ul>
+<h3>Domingo 01/11: Porto de
+Galinhas raiz</h3>
+<ul>
+<li><strong>Piscinas naturais</strong> de jangada na maré baixa.</li>
+<li>Tarde em <strong>Muro Alto</strong>, uma piscina natural gigante
+protegida por arrecife, onde dá para alugar caiaque ou stand-up.</li>
+<li>Pôr do sol e jantar na vila.</li>
+</ul>
+<h3>Segunda
+02/11 (Finados): Praia dos Carneiros (~1h de Porto)</h3>
+<ul>
+<li>Dia inteiro em Carneiros: <strong>Igrejinha de São
+Benedito</strong>, banho de argila, bancos de areia na maré baixa.</li>
+<li>Passeio de <strong>catamarã</strong> ou lancha pelo Rio
+Formoso.</li>
+<li>Volta para Porto à noite.</li>
+</ul>
+<h3>Terça 03/11: Maracaípe + surf</h3>
+<ul>
+<li>Manhã em <strong>Maracaípe</strong>, praia de surf, com aula em
+grupo para dois iniciantes.</li>
+<li><strong>Passeio dos cavalos-marinhos</strong> de jangada no mangue
+do Pontal de Maracaípe.</li>
+<li>Opcional: <strong>Praia de Tamandaré</strong> e o Forte de
+Tamandaré, se quiserem variar.</li>
+<li>Pôr do sol no <strong>Pontal</strong>, o melhor da região.</li>
+</ul>
+<h3>Quarta 04/11:
+Serrambi/Toquinho → Recife → aeroporto</h3>
+<ul>
+<li>Manhã numa praia mais tranquila no caminho:
+<strong>Serrambi</strong> ou <strong>Toquinho</strong>, que têm piscinas
+naturais e pouca gente.</li>
+<li>Façam o check-out e sigam para Recife depois do almoço.</li>
+<li>Se der tempo, passem rapidinho no <strong>Marco Zero/Recife
+Antigo</strong> para pelo menos ver o centro histórico.</li>
+<li>Devolvam o carro no aeroporto.</li>
+</ul>
+<hr />
+<p><strong>Ponto forte:</strong> não tem bate-volta longo, então vocês
+dormem perto das praias e aproveitam mais as marés.<br />
+<strong>Ponto fraco:</strong> quase não verão Recife e Olinda.<br />
+<strong>Dica:</strong> se quiserem ver Olinda, troquem a terça por
+"volta a Recife + tarde em Olinda" e durmam em Recife na terça.</p>
+<a class="top" href="#inicio">Voltar ao topo ↑</a></section>
+<section class="doc" id="opcao-3"><p class="eyebrow">Roteiro</p><h1>Opção 3: Cultura, forró e
+interior</h1>
+<p><strong>Para quem:</strong> curte história, música, comida e uma
+noite animada. Tem praia, mas não é o foco.<br />
+<strong>Base:</strong> Recife. Hotel no <strong>Recife Antigo</strong>
+ou em <strong>Boa Viagem</strong>: Recife Antigo deixa a noite a pé, Boa
+Viagem é mais segura e tem praia.<br />
+<strong>Transporte:</strong> Uber na cidade + carro (ou excursão) no dia
+do interior.</p>
+<hr />
+<h3>Sexta 30/10: chegada +
+primeira noite</h3>
+<ul>
+<li>Se tiverem pique, vão ao <strong>Recife Antigo</strong>, que na
+sexta à noite costuma ter bares com música ao vivo (frevo, maracatu,
+brega) e muita gente na rua.</li>
+</ul>
+<h3>Sábado 31/10: Recife
+histórico e musical</h3>
+<ul>
+<li><strong>Manhã:</strong> <strong>Cais do Sertão</strong>, um museu
+interativo sobre o sertão e Luiz Gonzaga, muito bom, e o <strong>Paço do
+Frevo</strong>, onde dá para aprender uns passos.</li>
+<li><strong>Embaixada dos Bonecos Gigantes</strong> e Rua do Bom
+Jesus.</li>
+<li><strong>Almoço:</strong> Restaurante Leite ou algo no Recife
+Antigo.</li>
+<li><strong>Tarde:</strong> <strong>Mercado de São José</strong>,
+<strong>Pátio de São Pedro</strong> e <strong>Casa da Cultura</strong>,
+a antiga cadeia transformada em lojas de artesanato.</li>
+<li><strong>Noite:</strong> samba, forró ou brega em Recife. No sábado à
+noite tem bastante opção no Recife Antigo e na zona norte.</li>
+</ul>
+<h3>Domingo 01/11: Olinda devagar</h3>
+<ul>
+<li>Manhã inteira <strong>subindo e descendo as ladeiras</strong>: Alto
+da Sé, Mosteiro de São Bento, Igreja da Sé, Convento de São Francisco e
+ateliês de artistas.</li>
+<li><strong>Museu do Mamulengo</strong> (bonecos populares) e
+<strong>Casa dos Bonecos Gigantes</strong>.</li>
+<li>Almoço em Olinda e tapioca no Alto da Sé no fim da tarde.</li>
+<li><strong>Noite:</strong> Olinda tem bares boêmios. Perguntem por
+<strong>sambadas de maracatu</strong> ou <strong>coco</strong> no fim de
+semana, que às vezes rolam na Cidade Alta.</li>
+</ul>
+<h3>Segunda 02/11
+(Finados): Caruaru + Gravatá (bate-volta)</h3>
+<ul>
+<li>Os museus de Recife fecham, então é o dia perfeito para o
+<strong>interior</strong>.</li>
+<li><strong>Caruaru</strong> (~2h): <strong>Alto do Moura</strong>, o
+maior centro de arte figurativa (bonecos de barro) das Américas, com a
+casa-museu de Mestre Vitalino. Também tem a <strong>Feira de
+Caruaru</strong>, que é gigante.</li>
+<li>Almoço no Alto do Moura: <strong>bode, buchada, carne de sol e
+cuscuz</strong>.</li>
+<li>Na volta, parem em <strong>Gravatá</strong> (~1h de Recife): clima
+de serra, arquitetura "suíça", fondue e um café para fechar o dia.</li>
+<li>Opcional no caminho: <strong>Bezerros</strong>, terra dos Papangus e
+das xilogravuras de J. Borges.</li>
+</ul>
+<h3>Terça 03/11: Brennand + praia</h3>
+<ul>
+<li><strong>Manhã:</strong> <strong>Instituto Ricardo Brennand</strong>,
+com castelo, armaduras e pinacoteca.</li>
+<li><strong>Tarde:</strong> <strong>Oficina Francisco
+Brennand</strong>.</li>
+<li><strong>Fim de tarde:</strong> praia de <strong>Boa Viagem</strong>
+ou <strong>Pina</strong> para um banho de mar e água de coco.</li>
+<li><strong>Noite:</strong> jantar de despedida bem regional, como
+Parraxaxá, Bode do Nô ou um restaurante de frutos do mar no Pina.</li>
+</ul>
+<h3>Quarta 04/11: meio-dia de
+praia</h3>
+<ul>
+<li>Bate-volta curto até <strong>Praia do Paiva</strong> ou
+<strong>Calhetas</strong> (~40 min), ou um passeio de catamarã pelos
+rios do Recife.</li>
+<li>Almoço e aeroporto à noite.</li>
+</ul>
+<hr />
+<p><strong>Ponto forte:</strong> é a opção mais "pernambucana", com
+música, arte popular e comida.<br />
+<strong>Ponto fraco:</strong> pouca praia paradisíaca (não tem Porto nem
+Carneiros). Dá para trocar a quarta por um bate-volta a Porto de
+Galinhas, se o voo for bem tarde.</p>
+<a class="top" href="#inicio">Voltar ao topo ↑</a></section>
+<section class="doc" id="opcao-4"><p class="eyebrow">Roteiro</p><h1>Opção 4: Rumo
+ao norte, com Itamaracá e João Pessoa</h1>
+<p><strong>Para quem:</strong> quer fugir do roteiro mais batido e somar
+outro estado à viagem.<br />
+<strong>Base:</strong> Recife (3 noites) + <strong>João Pessoa</strong>
+(1 noite) + volta a Recife.<br />
+<strong>Transporte:</strong> carro alugado.</p>
+<hr />
+<h3>Sexta 30/10: chegada</h3>
+<ul>
+<li>Noite em Boa Viagem ou no Recife Antigo.</li>
+</ul>
+<h3>Sábado 31/10: Recife +
+Olinda num dia</h3>
+<ul>
+<li><strong>Manhã:</strong> Marco Zero, Rua do Bom Jesus, Paço do Frevo
+e o barquinho até o Parque das Esculturas.</li>
+<li><strong>Tarde:</strong> <strong>Olinda</strong>, com Alto da Sé,
+ladeiras e igrejas. Tapioca no fim da tarde.</li>
+<li><strong>Noite:</strong> Recife Antigo ou bares de Olinda.</li>
+</ul>
+<h3>Domingo 01/11: Ilha de
+Itamaracá (~1h)</h3>
+<ul>
+<li><strong>Forte Orange</strong>, um forte holandês de 1631.</li>
+<li><strong>Coroa do Avião:</strong> banco de areia no meio do mar, onde
+se chega de barquinho a partir da Praia do Forte (maré baixa!).</li>
+<li>Opcional: travessia de barco até a <strong>Ilha dos
+Coqueiros</strong> ou o <strong>Pilar</strong> e passeio pela vila.</li>
+<li>Almoço de peixe e frutos do mar numa barraca na praia.</li>
+<li>Volta para Recife no fim da tarde.</li>
+</ul>
+<h3>Segunda 02/11 (Finados):
+João Pessoa (~2h)</h3>
+<ul>
+<li>Saiam cedo. <strong>Picãozinho</strong> ou <strong>Areia
+Vermelha</strong>, que são piscinas naturais/bancos de areia em alto-mar
+e saem de catamarã de Tambaú, dependendo da maré.</li>
+<li>Tarde na <strong>Ponta do Seixas</strong>, o ponto mais oriental das
+Américas, e no <strong>Farol do Cabo Branco</strong>.</li>
+<li><strong>Pôr do sol na Praia do Jacaré</strong>, ao som do Bolero de
+Ravel no saxofone, que é tradição local.</li>
+<li>Noite na orla de <strong>Tambaú</strong>. Durmam em João
+Pessoa.</li>
+</ul>
+<h3>Terça 03/11: Litoral
+sul da Paraíba → Recife</h3>
+<ul>
+<li>Manhã numa praia do litoral sul paraibano:
+<strong>Coqueirinho</strong> ou <strong>Tabatinga</strong>, que têm
+falésias coloridas, ou a <strong>Praia do Amor</strong>.</li>
+<li>(Tambaba, a praia de naturismo, fica por ali, caso tenham
+curiosidade. Tem regras próprias.)</li>
+<li>Almoço por lá e volta para Recife no fim da tarde (~2h).</li>
+<li><strong>Noite:</strong> jantar regional em Recife.</li>
+</ul>
+<h3>Quarta 04/11: Brennand +
+aeroporto</h3>
+<ul>
+<li><strong>Manhã:</strong> <strong>Instituto Ricardo
+Brennand</strong>.</li>
+<li><strong>Início da tarde:</strong> <strong>Oficina Brennand</strong>
+ou o <strong>Mercado de São José</strong> para lembranças.</li>
+<li>Devolvam o carro no aeroporto.</li>
+</ul>
+<hr />
+<p><strong>Ponto forte:</strong> são duas capitais e três tipos de praia
+(ilha, piscina em alto-mar e falésias), com menos turistas que Porto de
+Galinhas.<br />
+<strong>Ponto fraco:</strong> a mala vai e volta, e não tem Porto de
+Galinhas.<br />
+<strong>Variação:</strong> troquem o domingo (Itamaracá) por um
+bate-volta a <strong>Porto de Galinhas</strong>, se fizerem questão.</p>
+<a class="top" href="#inicio">Voltar ao topo ↑</a></section>
+<section class="doc" id="opcao-5"><p class="eyebrow">Roteiro</p><h1>Opção 5: Fernando de
+Noronha express</h1>
+<p><strong>Para quem:</strong> quer a experiência mais marcante possível
+e topa gastar mais.<br />
+<strong>Base:</strong> Recife (1 noite) + <strong>Noronha (3
+noites)</strong> + Recife (1 noite).<br />
+<strong>Voo Recife ↔︎ Noronha:</strong> ~1h10. Tem que ser comprado
+<strong>o quanto antes</strong>, porque o feriado encarece e lota.</p>
+<h3
+id="custos-extras-de-noronha-valores-aproximados-confiram-antes">Custos
+extras de Noronha (valores aproximados, confiram antes)</h3>
+<ul>
+<li><strong>TPA (Taxa de Preservação Ambiental):</strong> cobrada
+<strong>por dia, por pessoa</strong>. Para 3–4 dias, conte algumas
+centenas de reais cada um.</li>
+<li><strong>Ingresso do Parque Nacional Marinho:</strong> obrigatório
+para as praias e trilhas mais famosas (Sancho, Leão, Atalaia etc.),
+válido por 10 dias.</li>
+<li>Pousadas e comida são bem mais caras que no continente. Alguns
+passeios, como <strong>Atalaia</strong>, exigem <strong>agendamento
+antecipado</strong> no ICMBio.</li>
+</ul>
+<hr />
+<h3>Sexta 30/10: chegada em
+Recife</h3>
+<ul>
+<li>Noite num hotel perto do aeroporto ou em Boa Viagem, porque o voo
+para Noronha costuma ser de manhã.</li>
+</ul>
+<h3>Sábado 31/10: chegada em
+Noronha</h3>
+<ul>
+<li>Voo de manhã, check-in e pagamento da TPA no aeroporto.</li>
+<li>Façam a <strong>Ilha Tour</strong> (passeio de buggy ou van com
+guia), que mostra a ilha toda no primeiro dia e é ótima para se
+localizar.</li>
+<li><strong>Pôr do sol no Forte do Boldró</strong> ou no <strong>Mirante
+do Boldró</strong>, o pôr do sol mais famoso de Noronha.</li>
+</ul>
+<h3>Domingo 01/11: Baía do Sancho
++ mar</h3>
+<ul>
+<li><strong>Baía do Sancho</strong>, eleita várias vezes a melhor praia
+do mundo. Desce-se pela escada na fenda da rocha.</li>
+<li><strong>Mirante dos Golfinhos</strong>, de manhã cedo, para ver
+golfinhos-rotadores.</li>
+<li><strong>Passeio de barco</strong> pela costa (golfinhos, Sancho
+visto do mar e a Baía dos Porcos).</li>
+<li>Noite na <strong>Vila dos Remédios</strong>.</li>
+</ul>
+<h3>Segunda 02/11 (Finados):
+mergulho + Atalaia</h3>
+<ul>
+<li><strong>Piscina natural do Atalaia</strong> (agendar!), com
+tubarãozinho, peixes e tartarugas em água rasa.</li>
+<li>Ou um <strong>batismo de mergulho</strong> com cilindro, um dos
+melhores lugares do Brasil para isso. Também dá para fazer
+<strong>planasub</strong>, puxado por um barco.</li>
+<li>Tarde na <strong>Praia do Cachorro / Conceição</strong>.</li>
+<li>Pôr do sol no <strong>Morro do Pico</strong>, visto da Praia da
+Conceição.</li>
+</ul>
+<h3>Terça 03/11: Noronha manhã →
+Recife</h3>
+<ul>
+<li>Manhã na <strong>Baía dos Porcos</strong> ou na <strong>Praia do
+Leão</strong> (trilha), conforme a maré.</li>
+<li>Voo de volta para Recife à tarde.</li>
+<li><strong>Noite em Recife:</strong> jantar no <strong>Recife
+Antigo</strong> ou em <strong>Olinda</strong>.</li>
+</ul>
+<h3>Quarta 04/11: Recife/Olinda
+em um dia</h3>
+<ul>
+<li><strong>Manhã:</strong> <strong>Olinda</strong>, com Alto da Sé,
+ladeiras e tapioca.</li>
+<li><strong>Tarde:</strong> <strong>Marco Zero</strong>, Paço do Frevo
+ou <strong>Instituto Ricardo Brennand</strong> (escolham um, por causa
+do tempo).</li>
+<li>Aeroporto à noite.</li>
+</ul>
+<hr />
+<p><strong>Ponto forte:</strong> é a viagem "que vocês vão lembrar para
+sempre". Noronha é único.<br />
+<strong>Ponto fraco:</strong> sai <strong>bem mais caro</strong> e quase
+não sobra tempo para Recife e o litoral do continente.<br />
+<strong>Plano B se o voo estiver caro demais:</strong> troquem Noronha
+por 3 noites em <strong>Porto de Galinhas/Carneiros</strong>. Ver a
+Opção 2.</p>
+<a class="top" href="#inicio">Voltar ao topo ↑</a></section>
+<section class="doc" id="opcao-6"><p class="eyebrow">Roteiro</p><h1>Opção 6: Base única
+em Muro Alto ("modo férias")</h1>
+<p><strong>Para quem:</strong> quer praia bonita <strong>sem trocar de
+hotel nenhuma vez</strong>, com piscina, mar calmo e passeios
+curtos.<br />
+<strong>Base:</strong> 5 noites num flat/resort em <strong>Muro
+Alto</strong> (~1h do aeroporto).<br />
+<strong>Transporte:</strong> carro alugado. Porto de Galinhas fica a 15
+min, Maracaípe a 25 min e Carneiros a ~1h15.</p>
+<p><strong>Diferença em relação às outras:</strong> aqui a hospedagem é
+parte do passeio. Muro Alto tem um arrecife enorme que forma uma
+"piscina" de mar calmo na frente dos condomínios.</p>
+<hr />
+<h3>Sexta 30/10: chegada
+direto para Muro Alto</h3>
+<ul>
+<li>Peguem o carro no aeroporto e sigam direto (~1h). Passem num mercado
+no caminho (água, cerveja, café da manhã, se for flat com cozinha).</li>
+</ul>
+<h3>Sábado 31/10: dia em Muro
+Alto</h3>
+<ul>
+<li><strong>Manhã:</strong> caiaque ou <strong>stand-up paddle</strong>
+na piscina natural de Muro Alto, alugados na praia.</li>
+<li>Caminhada até o fim da praia, rumo ao <strong>Pontal do
+Cupe</strong>.</li>
+<li>Tarde de piscina no resort, sem pressa.</li>
+<li><strong>Noite:</strong> jantar na <strong>vila de Porto de
+Galinhas</strong> (15 min), que tem restaurantes, sorveterias e
+lojinhas.</li>
+</ul>
+<h3>Domingo 01/11: Porto
+de Galinhas + Maracaípe</h3>
+<ul>
+<li><strong>Manhã (maré baixa):</strong> <strong>piscinas
+naturais</strong> de jangada em Porto de Galinhas.</li>
+<li>Almoço na vila.</li>
+<li><strong>Tarde:</strong> <strong>Maracaípe</strong>, com a praia do
+surf e o <strong>passeio dos cavalos-marinhos</strong> de jangada no
+mangue do Pontal.</li>
+<li><strong>Pôr do sol no Pontal de Maracaípe</strong>, o mais bonito da
+região.</li>
+</ul>
+<h3>Segunda 02/11
+(Finados): Praia dos Carneiros</h3>
+<ul>
+<li>Saiam cedo (~1h15).</li>
+<li><strong>Igrejinha de São Benedito</strong>, banho de argila, bancos
+de areia na maré baixa.</li>
+<li>Passeio de <strong>catamarã/lancha</strong> pelo Rio Formoso, ou
+alugem um lugar num beach club e fiquem parados.</li>
+<li>Volta para Muro Alto no fim da tarde.</li>
+</ul>
+<h3>Terça 03/11: Serrambi +
+Maracaípe de novo</h3>
+<ul>
+<li><strong>Manhã:</strong> <strong>Serrambi</strong> ou
+<strong>Toquinho</strong>, praias tranquilas com piscinas naturais e
+quase ninguém.</li>
+<li><strong>Tarde:</strong> voltem a <strong>Maracaípe</strong> para uma
+<strong>aula de surf</strong> (dá para fazer em duas horas) ou só para
+tomar água de coco nas barracas.</li>
+<li><strong>Noite:</strong> último jantar caprichado na vila de Porto
+(frutos do mar ou um restaurante de peixe grelhado).</li>
+</ul>
+<h3>Quarta 04/11: manhã
+livre → Recife → aeroporto</h3>
+<ul>
+<li>Última manhã de mar em Muro Alto.</li>
+<li>Check-out (peçam <em>late check-out</em>).</li>
+<li>Se o voo for bem à noite, parem no <strong>Recife Antigo</strong>
+(Marco Zero) por uma ou duas horas antes de devolver o carro.</li>
+</ul>
+<hr />
+<p><strong>Ponto forte:</strong> é o roteiro mais descansado de todos e
+passa pelas três praias pedidas: Muro Alto, Maracaípe e Carneiros.<br />
+<strong>Ponto fraco:</strong> quase não tem Recife nem Olinda, e é
+preciso dirigir todo dia, embora em trechos curtos.<br />
+<strong>Dica:</strong> escolham um flat <strong>com cozinha</strong>. Os
+restaurantes dos condomínios em Muro Alto costumam fechar cedo e ser
+caros.</p>
+<a class="top" href="#inicio">Voltar ao topo ↑</a></section>
+<section class="doc" id="opcao-7"><p class="eyebrow">Roteiro</p><h1>Opção 7: Road trip
+pelo Sul até Maragogi (AL)</h1>
+<p><strong>Para quem:</strong> quer ir descendo o litoral de carro,
+dormir perto de cada praia e ainda "pisar" em Alagoas.<br />
+<strong>Bases:</strong> 1 noite em Recife + 2 noites em
+<strong>Maracaípe</strong> + 2 noites em
+<strong>Carneiros/Tamandaré</strong>.<br />
+<strong>Transporte:</strong> carro alugado. Os trechos são Recife → Muro
+Alto (1h), Maracaípe → Carneiros (1h), Carneiros → Maragogi (~1h) e
+Carneiros → aeroporto (~2h).</p>
+<hr />
+<h3>Sexta 30/10: chegada</h3>
+<ul>
+<li>Noite em Boa Viagem, perto do aeroporto. Jantar rápido na orla.</li>
+</ul>
+<h3>Sábado 31/10: Recife →
+Muro Alto → Maracaípe</h3>
+<ul>
+<li>Saiam cedo rumo ao sul.</li>
+<li><strong>Manhã em Muro Alto:</strong> piscina natural de mar calmo,
+caiaque ou stand-up.</li>
+<li>Almoço em Porto de Galinhas.</li>
+<li>Check-in em <strong>Maracaípe</strong> no fim da tarde e <strong>pôr
+do sol no Pontal</strong>.</li>
+<li><strong>Noite:</strong> vila de Porto de Galinhas (10 min).</li>
+</ul>
+<h3>Domingo 01/11: Porto +
+Maracaípe</h3>
+<ul>
+<li><strong>Manhã (maré baixa):</strong> <strong>piscinas
+naturais</strong> de Porto de Galinhas.</li>
+<li><strong>Tarde:</strong> <strong>cavalos-marinhos</strong> no Pontal
+de Maracaípe + aula de surf ou banho na praia de Maracaípe.</li>
+<li>Noite tranquila em Maracaípe. A vila é pequena e tem barzinhos.</li>
+</ul>
+<h3>Segunda 02/11
+(Finados): Maracaípe → Carneiros</h3>
+<ul>
+<li>Check-out e cerca de 1h de estrada.</li>
+<li><strong>Praia dos Carneiros</strong> o dia todo: <strong>Igrejinha
+de São Benedito</strong>, banho de argila e piscinas naturais.</li>
+<li>Passeio de <strong>catamarã</strong> pelo Rio Formoso no fim da
+tarde.</li>
+<li>Check-in em Carneiros ou Tamandaré.</li>
+</ul>
+<h3>Terça 03/11: Maragogi
+(Alagoas)</h3>
+<ul>
+<li>~1h de carro pela PE-060/AL-101.</li>
+<li><strong>Galés de Maragogi:</strong> piscinas naturais em alto-mar,
+de catamarã. Só saem na <strong>maré baixa</strong>, então reservem
+antes e confiram o horário.</li>
+<li>Na volta, parem na <strong>Praia de Antunes</strong> ou em
+<strong>São José da Coroa Grande (PE)</strong>.</li>
+<li><strong>Noite:</strong> jantar em Tamandaré e visita ao
+<strong>Forte de Tamandaré</strong> no fim da tarde.</li>
+</ul>
+<h3>Quarta 04/11: última manhã →
+Recife</h3>
+<ul>
+<li>Última manhã em Carneiros, aproveitando a praia vazia antes dos
+passeios chegarem.</li>
+<li>Saída por volta das 13h–14h (~2h até o aeroporto).</li>
+<li>Se sobrar tempo, parem no caminho em <strong>Gaibu</strong> ou na
+<strong>Vila de Nazaré</strong> (Cabo) para ver o mirante.</li>
+</ul>
+<hr />
+<p><strong>Ponto forte:</strong> cada noite é perto da praia do dia
+seguinte e cobre Muro Alto, Maracaípe, Carneiros + um bônus em
+Alagoas.<br />
+<strong>Ponto fraco:</strong> são duas trocas de hospedagem e o dia de
+volta tem 2h de estrada. Não tem Recife/Olinda.<br />
+<strong>Atenção:</strong> reservar o passeio das galés de Maragogi com
+antecedência no feriado. Também confiram se a locadora permite levar o
+carro para outro estado (normalmente sim).</p>
+<a class="top" href="#inicio">Voltar ao topo ↑</a></section>
+<section class="doc" id="opcao-8"><p class="eyebrow">Roteiro</p><h1>Opção 8: Ação e
+aventura (esportes no mar + noite)</h1>
+<p><strong>Para quem:</strong> dois irmãos que querem <strong>fazer
+coisas</strong>: surf, mergulho, buggy, tirolesa, stand-up, e sair à
+noite.<br />
+<strong>Bases:</strong> 3 noites na <strong>vila de Porto de
+Galinhas</strong> + 2 noites em <strong>Recife</strong> (Boa Viagem ou
+Recife Antigo).<br />
+<strong>Transporte:</strong> carro alugado.</p>
+<hr />
+<h3>Sexta 30/10:
+chegada direto para Porto de Galinhas</h3>
+<ul>
+<li>Do aeroporto direto para a vila (~1h15). Se chegarem cedo, tomem uma
+cerveja na vila.</li>
+</ul>
+<h3>Sábado 31/10: buggy +
+stand-up em Muro Alto</h3>
+<ul>
+<li><strong>Manhã:</strong> <strong>passeio de buggy "ponta a
+ponta"</strong> (Muro Alto, Cupe, Porto, Maracaípe, Pontal), contratado
+na vila.</li>
+<li>Parada longa em <strong>Muro Alto</strong> para <strong>stand-up
+paddle</strong> ou <strong>caiaque</strong> na piscina natural.</li>
+<li><strong>Fim de tarde:</strong> pôr do sol no <strong>Pontal de
+Maracaípe</strong>.</li>
+<li><strong>Noite:</strong> vila de Porto de Galinhas, que no sábado tem
+bares, música ao vivo e movimento.</li>
+</ul>
+<h3>Domingo 01/11:
+mergulho + surf em Maracaípe</h3>
+<ul>
+<li><strong>Manhã (maré baixa):</strong> <strong>batismo de mergulho com
+cilindro</strong> ou snorkel guiado nas piscinas naturais. Há operadoras
+na vila e ninguém precisa ter experiência.</li>
+<li><strong>Tarde:</strong> <strong>aula de surf em Maracaípe</strong>
+(~2h, pranchão para iniciante).</li>
+<li>Passeio dos <strong>cavalos-marinhos</strong> no Pontal, se der
+tempo.</li>
+<li><strong>Noite:</strong> luau ou barzinho em Maracaípe.</li>
+</ul>
+<h3>Segunda 02/11 (Finados):
+Carneiros na água</h3>
+<ul>
+<li>~1h de carro.</li>
+<li><strong>Catamarã ou lancha</strong> pelo Rio Formoso com parada nos
+bancos de areia, mais <strong>banana boat</strong>/caiaque, conforme o
+que estiver rolando na praia.</li>
+<li><strong>Igrejinha de São Benedito</strong> e <strong>banho de
+argila</strong>.</li>
+<li>Volta para Porto no fim da tarde.</li>
+</ul>
+<h3>Terça 03/11: Calhetas
+(tirolesa) → Recife</h3>
+<ul>
+<li>Check-out em Porto e sigam para o norte.</li>
+<li><strong>Praia de Calhetas</strong> (Cabo de Santo Agostinho):
+<strong>tirolesa sobre o mar</strong> e snorkel na enseada.</li>
+<li>Vista da <strong>Vila de Nazaré</strong> (farol e ruínas).</li>
+<li>Check-in em Recife à tarde.</li>
+<li><strong>Noite:</strong> <strong>Recife Antigo</strong> ou
+<strong>bares de Boa Viagem/Pina</strong>.</li>
+</ul>
+<h3>Quarta 04/11: Olinda + Recife
+Antigo</h3>
+<ul>
+<li><strong>Manhã:</strong> <strong>Olinda</strong>, subindo as ladeiras
+até o Alto da Sé, e tapioca.</li>
+<li><strong>Tarde:</strong> <strong>Marco Zero</strong>, Paço do Frevo
+ou <strong>Cais do Sertão</strong>, que abre na quarta.</li>
+<li>Jantar cedo e aeroporto.</li>
+</ul>
+<hr />
+<p><strong>Ponto forte:</strong> dias cheios de atividade, com as três
+praias pedidas, e as noites de Porto e de Recife.<br />
+<strong>Ponto fraco:</strong> é mais cansativo e tem custos extras com
+as atividades. Confiram as faixas de preço na hora: buggy, mergulho,
+surf, catamarã e tirolesa são cobrados à parte.<br />
+<strong>Dica:</strong> os passeios de buggy e mergulho se fecham direto
+na vila, e dá para negociar o pacote para os dois.</p>
+<a class="top" href="#inicio">Voltar ao topo ↑</a></section>
+<section class="doc" id="hospedagens"><p class="eyebrow">Onde ficar</p><h1
+id="hospedagens-4-opções-por-base-2-baratas--2-custo-benefício">Hospedagens:
+4 opções por base (2 baratas + 2 custo-benefício)</h1>
+<p><strong>Datas:</strong> 30/10 a 04/11/2026 · <strong>2
+adultos</strong> (irmãos)</p>
+<blockquote>
+<p><strong>Importante sobre os preços:</strong> os valores são
+<strong>referências de diária para 2 pessoas</strong> tiradas de guias e
+buscadores (Booking, Kayak, Hotels.com), muitas vezes de outras datas.
+Quando aparece <strong>"a partir de"</strong>, o valor veio de uma
+fonte. Quando aparece uma <strong>faixa (R$ X–Y)</strong>, é uma
+estimativa minha para o perfil da hospedagem. O feriado de Finados
+costuma <strong>encarecer</strong> e lotar o litoral, então confirmem o
+valor real nos links de busca no fim de cada base antes de reservar.</p>
+<p><strong>Dica para irmãos:</strong> filtrem por <strong>"duas camas de
+solteiro"</strong> (twin). Em pousada, peçam isso por mensagem antes de
+fechar. Prefiram <strong>cancelamento grátis</strong>.</p>
+</blockquote>
+<h2>Qual base usar em cada
+roteiro</h2>
+<div class="tbl"><table>
+<thead>
+<tr class="header">
+<th>Roteiro</th>
+<th>Bases de hospedagem</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>1. Clássico equilibrado</td>
+<td>Recife (5 noites)</td>
+</tr>
+<tr class="even">
+<td>2. Litoral Sul só praia</td>
+<td>Recife (1) + Porto de Galinhas (3) + Recife ou noite livre</td>
+</tr>
+<tr class="odd">
+<td>3. Cultura e interior</td>
+<td>Recife (5)</td>
+</tr>
+<tr class="even">
+<td>4. Norte: Itamaracá + João Pessoa</td>
+<td>Recife (3) + João Pessoa (1) + Recife (1)</td>
+</tr>
+<tr class="odd">
+<td>5. Noronha express</td>
+<td>Recife (1) + Noronha (3) + Recife (1)</td>
+</tr>
+<tr class="even">
+<td>6. Base única em Muro Alto</td>
+<td>Muro Alto (5)</td>
+</tr>
+<tr class="odd">
+<td>7. Road trip até Maragogi</td>
+<td>Recife (1) + Maracaípe (2) + Carneiros/Tamandaré (2)</td>
+</tr>
+<tr class="even">
+<td>8. Ação e aventura</td>
+<td>Porto de Galinhas (3) + Recife (2)</td>
+</tr>
+</tbody>
+</table></div>
+<hr />
+<h2>1. Recife: Boa Viagem</h2>
+<div class="tbl"><table>
+<thead>
+<tr class="header">
+<th>Tipo</th>
+<th>Hospedagem</th>
+<th>Por que</th>
+<th>Diária ref. (casal)</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Barata</td>
+<td><strong>Bianca Praia Hotel</strong></td>
+<td>Um dos mais econômicos de Boa Viagem com boa avaliação. É simples, a
+poucos minutos a pé da praia</td>
+<td>~R$ 150–250</td>
+</tr>
+<tr class="even">
+<td>Barata</td>
+<td><strong>Pousada Casuarinas</strong></td>
+<td>Uma das opções mais em conta do bairro, perto da orla</td>
+<td>~R$ 150–220</td>
+</tr>
+<tr class="odd">
+<td>Custo-benefício</td>
+<td><strong>Transamerica Fit Boa Viagem</strong></td>
+<td>Fica a ~700 m da praia, tem piscina, café da manhã, estacionamento e
+academia</td>
+<td>~R$ 300–400</td>
+</tr>
+<tr class="even">
+<td>Custo-benefício</td>
+<td><strong>Grand Mercure Recife Boa Viagem</strong></td>
+<td>Fica <strong>de frente para o mar</strong>, tem nota ~8,0 no Booking
+(+3.500 avaliações) e cancelamento grátis</td>
+<td>a partir de ~R$ 470</td>
+</tr>
+</tbody>
+</table></div>
+<p>Busca com as datas: <a
+href="https://www.booking.com/searchresults.pt-br.html?ss=Boa+Viagem%2C+Recife&amp;checkin=2026-10-30&amp;checkout=2026-11-04&amp;group_adults=2&amp;no_rooms=1">Booking
+Boa Viagem</a> · <a
+href="https://www.airbnb.com.br/s/Boa-Viagem--Recife/homes?checkin=2026-10-30&amp;checkout=2026-11-04&amp;adults=2">Airbnb
+Boa Viagem</a><br />
+<em>Airbnb em Boa Viagem:</em> há muitos flats em prédios na Av. Boa
+Viagem ou 1 quadra atrás, normalmente entre R$ 200 e R$ 400 a diária. É
+bom para quem quer cozinha.</p>
+<hr />
+<h2>2. Porto de Galinhas:
+vila (roteiros 2 e 8)</h2>
+<div class="tbl"><table>
+<thead>
+<tr class="header">
+<th>Tipo</th>
+<th>Hospedagem</th>
+<th>Por que</th>
+<th>Diária ref. (casal)</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Barata</td>
+<td><strong>Beach Life (ex-Hostel La Rocca)</strong></td>
+<td>Quarto privativo, café da manhã incluso e piscina, a ~400 m do
+centro da vila</td>
+<td>a partir de ~R$ 130</td>
+</tr>
+<tr class="even">
+<td>Barata</td>
+<td><strong>Che Lagarto Porto de Galinhas</strong></td>
+<td>Hostel/pousada com piscina, clima jovem e quartos privativos</td>
+<td>a partir de ~R$ 200</td>
+</tr>
+<tr class="odd">
+<td>Custo-benefício</td>
+<td><strong>Pousada Doce Cabana</strong></td>
+<td>Fica <strong>em frente à praia</strong> e tem nota 8,6 no Booking
+(+700 avaliações)</td>
+<td>a partir de ~R$ 210</td>
+</tr>
+<tr class="even">
+<td>Custo-benefício</td>
+<td><strong>Pousada Casa Porto</strong></td>
+<td>Tem nota 8,6, piscina e localização boa na vila</td>
+<td>a partir de ~R$ 220</td>
+</tr>
+</tbody>
+</table></div>
+<p><em>Se quiserem um degrau acima:</em> a <strong>Pousada Som dos
+Pássaros</strong> tem nota 9,2, piscina e café da manhã e fica no
+centro, a partir de ~R$ 360.<br />
+Busca com as datas: <a
+href="https://www.booking.com/searchresults.pt-br.html?ss=Porto+de+Galinhas&amp;checkin=2026-10-30&amp;checkout=2026-11-04&amp;group_adults=2&amp;no_rooms=1">Booking
+Porto de Galinhas</a> · <a
+href="https://www.airbnb.com.br/s/Porto-de-Galinhas/homes?checkin=2026-10-30&amp;checkout=2026-11-04&amp;adults=2">Airbnb
+Porto de Galinhas</a></p>
+<hr />
+<h2>3. Maracaípe (roteiro 7)</h2>
+<div class="tbl"><table>
+<thead>
+<tr class="header">
+<th>Tipo</th>
+<th>Hospedagem</th>
+<th>Por que</th>
+<th>Diária ref. (casal)</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Barata</td>
+<td><strong>Pousada Nossa Casa Maracaípe</strong></td>
+<td>Simples, com café da manhã e estacionamento grátis. Tem nota 7,8 e o
+check-in é com o anfitrião</td>
+<td>~R$ 200–300</td>
+</tr>
+<tr class="even">
+<td>Barata</td>
+<td><strong>Suítes Beira Mar Maracaípe</strong></td>
+<td>Fica de frente para o mar, com elogios ao café da manhã e à
+localização. Confirmem a reserva antes, porque há relato de cancelamento
+em cima da hora</td>
+<td>~R$ 250–350</td>
+</tr>
+<tr class="odd">
+<td>Custo-benefício</td>
+<td><strong>Pousada Maracabana</strong></td>
+<td>Tem nota 9,1 e café da manhã incluso, a ~600 m das piscinas do
+Pontal</td>
+<td>a partir de ~R$ 500</td>
+</tr>
+<tr class="even">
+<td>Custo-benefício</td>
+<td><strong>Pousada Xalés de Maracaípe</strong></td>
+<td>Fica à beira-mar, tem nota 9,2 com +2.000 avaliações e é elogiada
+pela tranquilidade e pelo café da manhã</td>
+<td>a partir de ~R$ 520</td>
+</tr>
+</tbody>
+</table></div>
+<p>Maracaípe é mais cara que a vila de Porto. Se o orçamento apertar,
+durmam na vila de Porto (10 min) e mantenham o roteiro igual.<br />
+Busca com as datas: <a
+href="https://www.booking.com/searchresults.pt-br.html?ss=Maracaipe&amp;checkin=2026-10-31&amp;checkout=2026-11-02&amp;group_adults=2&amp;no_rooms=1">Booking
+Maracaípe</a> · <a
+href="https://www.airbnb.com.br/s/Maracaipe/homes?checkin=2026-10-31&amp;checkout=2026-11-02&amp;adults=2">Airbnb
+Maracaípe</a></p>
+<hr />
+<h2>4. Muro Alto (roteiro 6)</h2>
+<div class="tbl"><table>
+<thead>
+<tr class="header">
+<th>Tipo</th>
+<th>Hospedagem</th>
+<th>Por que</th>
+<th>Diária ref. (casal)</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Barata</td>
+<td><strong>Mana Beach Muro Alto (by BMS)</strong></td>
+<td>Flat em condomínio, nota 8,9. É a opção mais em conta com nota
+alta</td>
+<td>a partir de ~R$ 300</td>
+</tr>
+<tr class="even">
+<td>Barata</td>
+<td><strong>Studio no Marulhos Resort (Airbnb)</strong></td>
+<td>Flat de particular dentro de um resort pé na areia, com piscina e
+café da manhã em alguns anúncios</td>
+<td>a partir de ~R$ 360</td>
+</tr>
+<tr class="odd">
+<td>Custo-benefício</td>
+<td><strong>Muro Alto Flats</strong></td>
+<td>Tem nota 9,1 e apartamento com cozinha, bom para ficar 5 noites</td>
+<td>a partir de ~R$ 460</td>
+</tr>
+<tr class="even">
+<td>Custo-benefício</td>
+<td><strong>Beach Class Muro Alto (flat)</strong></td>
+<td>Tem uma das maiores piscinas do Brasil e flats de 45 m² com cozinha
+e varanda. Nota ~8,1. Nesse trecho há muito arrecife no raso para banho
+de mar</td>
+<td>a partir de ~R$ 540</td>
+</tr>
+</tbody>
+</table></div>
+<p>Busca com as datas: <a
+href="https://www.booking.com/searchresults.pt-br.html?ss=Muro+Alto%2C+Ipojuca&amp;checkin=2026-10-30&amp;checkout=2026-11-04&amp;group_adults=2&amp;no_rooms=1">Booking
+Muro Alto</a> · <a
+href="https://www.airbnb.com.br/s/Muro-Alto--Ipojuca/homes?checkin=2026-10-30&amp;checkout=2026-11-04&amp;adults=2">Airbnb
+Muro Alto</a><br />
+<em>Dica:</em> em Muro Alto, o <strong>Airbnb costuma valer
+mais</strong> que os hotéis. Muitos donos alugam flats dentro dos
+resorts (Marulhos, Beach Class, Ancorar, Marupiara) com acesso às
+piscinas. Confirmem se a taxa de limpeza e a pulseira do resort estão
+inclusas.</p>
+<hr />
+<h2>5. Carneiros /
+Tamandaré (roteiros 1, 2 e 7)</h2>
+<div class="tbl"><table>
+<thead>
+<tr class="header">
+<th>Tipo</th>
+<th>Hospedagem</th>
+<th>Por que</th>
+<th>Diária ref. (casal)</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Barata</td>
+<td><strong>Pousada Costa Tropical (Tamandaré)</strong></td>
+<td>Uma das mais baratas da região</td>
+<td>a partir de ~R$ 130</td>
+</tr>
+<tr class="even">
+<td>Barata</td>
+<td><strong>Pousada Jardins (Tamandaré)</strong></td>
+<td>Fica à beira-mar, tem piscina e está a ~1,5 km de Carneiros</td>
+<td>~R$ 180–250</td>
+</tr>
+<tr class="odd">
+<td>Custo-benefício</td>
+<td><strong>Bangalôs do Gameleiro (Carneiros)</strong></td>
+<td>Casinhas <strong>de frente para a praia</strong>, com cozinha</td>
+<td>~R$ 400–600</td>
+</tr>
+<tr class="even">
+<td>Custo-benefício</td>
+<td><strong>Pousada Sítio da Prainha (Carneiros)</strong></td>
+<td>Fica numa parte tranquila de Carneiros, com piscina e suítes com
+varanda e ar</td>
+<td>~R$ 400–600</td>
+</tr>
+</tbody>
+</table></div>
+<p>Ficar em <strong>Tamandaré</strong> sai bem mais barato, a uns 10 min
+de carro de Carneiros. Dormir <strong>em Carneiros</strong> é a
+experiência "pé na areia".<br />
+Busca com as datas: <a
+href="https://www.booking.com/searchresults.pt-br.html?ss=Tamandare&amp;checkin=2026-11-02&amp;checkout=2026-11-04&amp;group_adults=2&amp;no_rooms=1">Booking
+Tamandaré/Carneiros</a> · <a
+href="https://www.airbnb.com.br/s/Praia-dos-Carneiros--Tamandare/homes?checkin=2026-11-02&amp;checkout=2026-11-04&amp;adults=2">Airbnb
+Carneiros</a></p>
+<hr />
+<h2>6. João Pessoa (roteiro
+4: 1 noite, 02→03/11)</h2>
+<div class="tbl"><table>
+<thead>
+<tr class="header">
+<th>Tipo</th>
+<th>Hospedagem</th>
+<th>Por que</th>
+<th>Diária ref. (casal)</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Barata</td>
+<td><strong>Pousada Familly (Tambaú)</strong></td>
+<td>Tem nota 8,3 e é a mais barata bem avaliada de Tambaú</td>
+<td>a partir de ~R$ 145</td>
+</tr>
+<tr class="even">
+<td>Barata</td>
+<td><strong>O Portuga Pousada (Cabo Branco)</strong></td>
+<td>Tem nota 8,8 e fica perto da orla</td>
+<td>a partir de ~R$ 190</td>
+</tr>
+<tr class="odd">
+<td>Custo-benefício</td>
+<td><strong>Pousada Cabo Branco</strong></td>
+<td>Tem nota 9,0, a mais bem avaliada do bairro</td>
+<td>a partir de ~R$ 200</td>
+</tr>
+<tr class="even">
+<td>Custo-benefício</td>
+<td><strong>Atlântico Praia Hotel (Tambaú)</strong></td>
+<td>Hotel na orla, com boa localização, perto dos catamarãs para
+Picãozinho</td>
+<td>~R$ 300–400</td>
+</tr>
+</tbody>
+</table></div>
+<p>Busca com as datas: <a
+href="https://www.booking.com/searchresults.pt-br.html?ss=Tambau%2C+Joao+Pessoa&amp;checkin=2026-11-02&amp;checkout=2026-11-03&amp;group_adults=2&amp;no_rooms=1">Booking
+João Pessoa</a> · <a
+href="https://www.airbnb.com.br/s/Tambau--Joao-Pessoa/homes?checkin=2026-11-02&amp;checkout=2026-11-03&amp;adults=2">Airbnb
+João Pessoa</a></p>
+<hr />
+<h2>7. Fernando
+de Noronha (roteiro 5: 3 noites, 31/10→03/11)</h2>
+<div class="tbl"><table>
+<thead>
+<tr class="header">
+<th>Tipo</th>
+<th>Hospedagem</th>
+<th>Por que</th>
+<th>Diária ref. (casal)</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Barata</td>
+<td><strong>Pousada do Golfinho (Vila dos Remédios)</strong></td>
+<td>Fica no centrinho, com restaurantes a pé, e tem nota 8,1</td>
+<td>a partir de ~R$ 550</td>
+</tr>
+<tr class="even">
+<td>Barata</td>
+<td><strong>Maré Suítes (Floresta Nova)</strong></td>
+<td>Tem nota 9,2 e é uma das mais baratas da ilha</td>
+<td>a partir de ~R$ 380</td>
+</tr>
+<tr class="odd">
+<td>Custo-benefício</td>
+<td><strong>Pousada Solar das Andorinhas</strong></td>
+<td>Boa opção econômica para quem não quer hostel</td>
+<td>~R$ 500–700</td>
+</tr>
+<tr class="even">
+<td>Custo-benefício</td>
+<td><strong>Pousada Tartarugas Marinhas (Floresta Nova)</strong></td>
+<td>Tem nota 9,8, com atendimento e café da manhã muito elogiados</td>
+<td>a partir de ~R$ 700</td>
+</tr>
+</tbody>
+</table></div>
+<p>Em Noronha, "barato" é relativo. Muitas pousadas simples <strong>não
+incluem café da manhã</strong>, e é preciso somar TPA e o ingresso do
+Parque.<br />
+Busca com as datas: <a
+href="https://www.booking.com/searchresults.pt-br.html?ss=Fernando+de+Noronha&amp;checkin=2026-10-31&amp;checkout=2026-11-03&amp;group_adults=2&amp;no_rooms=1">Booking
+Noronha</a> · <a
+href="https://www.airbnb.com.br/s/Fernando-de-Noronha/homes?checkin=2026-10-31&amp;checkout=2026-11-03&amp;adults=2">Airbnb
+Noronha</a></p>
+<hr />
+<h3>Fontes consultadas</h3>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://www.maladeaventuras.com/onde-ficar-em-recife/">Mala
+de Aventuras: onde ficar em Recife</a></li>
+<li><a
+href="https://www.queroviajarmais.com/hoteis-na-praia-de-boa-viagem-em-recife/">Quero
+Viajar Mais: hotéis na praia de Boa Viagem</a></li>
+<li><a
+href="https://www.buenasdicas.com/pousadas-baratas-porto-de-galinhas-10194/">Buenas
+Dicas: pousadas baratas em Porto de Galinhas</a></li>
+<li><a
+href="https://www.queroviajarmais.com/pousadas-em-porto-de-galinhas/">Quero
+Viajar Mais: pousadas em Porto de Galinhas</a></li>
+<li><a
+href="https://quantocustaviajar.com/blog/pousadas-em-maracaipe/">Quanto
+Custa Viajar: pousadas em Maracaípe</a></li>
+<li><a
+href="https://quantocustaviajar.com/blog/pousadas-na-praia-de-muro-alto/">Quanto
+Custa Viajar: pousadas em Muro Alto</a></li>
+<li><a
+href="https://www.buenasdicas.com/hoteis-praia-muro-alto-11767/">Buenas
+Dicas: hotéis em Muro Alto</a></li>
+<li><a
+href="https://www.queroviajarmais.com/pousadas-em-tamandare/">Quero
+Viajar Mais: pousadas em Tamandaré</a></li>
+<li><a
+href="https://www.360meridianos.com/onde-ficar-na-praia-dos-carneiros-pousadas/">360meridianos:
+onde ficar em Carneiros</a></li>
+<li><a
+href="https://www.buenasdicas.com/onde-ficar-joao-pessoa-pb-10940/">Buenas
+Dicas: onde ficar em João Pessoa</a></li>
+<li><a
+href="https://www.maladeaventuras.com/pousadas-baratas-em-fernando-de-noronha">Mala
+de Aventuras: pousadas baratas em Noronha</a></li>
+</ul>
+<a class="top" href="#inicio">Voltar ao topo ↑</a></section>
+</div></main>
+<footer class="wrap">Preços e horários são referências; confira antes de reservar.</footer>
